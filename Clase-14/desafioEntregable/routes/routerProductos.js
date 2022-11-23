@@ -9,9 +9,9 @@ const {
 
 const routerProductos = Router();
 
-// administrador
-// const isAdmin = true;
-const isAdmin = false;
+//* administrador
+const isAdmin = true;
+//const isAdmin = false;
 
 const validacion = (req, res, next) => {
 	if (!isAdmin) return res.status(401).json({ msg: 'Usuario no Autorizado' });
