@@ -41,7 +41,9 @@ const putProduct = async (req, res) => {
 		precio,
 		stock,
 	});
-	res.json({ succes: true, product: updateProducto });
+	if (updateProducto)
+		res.json({ succes: true, msg: `producto actulizado ${updateProducto.id}` });
+	else res.json({ error: true, msg: 'producto no encontrado' });
 };
 
 //*DELETE borrar por id

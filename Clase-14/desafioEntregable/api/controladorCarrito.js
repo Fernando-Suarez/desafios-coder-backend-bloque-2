@@ -43,7 +43,10 @@ const postProductCartId = async (req, res) => {
 		parseInt(id),
 		carritoId
 	);
-	res.json({ succes: true, producto: productoAgregado });
+	res.json({
+		succes: true,
+		msg: `producto id ${producto.id} agregado al carrito id ${carritoId.id}`,
+	});
 };
 
 // DELETE: '/:id/productos/:id_prod' - Eliminar un producto del carrito por su id de carrito y de producto
