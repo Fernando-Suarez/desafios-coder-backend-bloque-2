@@ -6,18 +6,17 @@
   },
   {
     "timestamp": "[23/11/2022] [18:08:29]",
-    "productos": [
-      {
-        "nombre": " spiderman",
-        "descripcion": "juegos ps4",
-        "código": "eld320",
-        "foto": "www.google.com",
-        "precio": 1500,
-        "stock": 20,
-        "id": 2,
-        "timestamp": "[23/11/2022] [18:01:31]"
-      }
-    ],
+    "productos": [],
     "id": 2
+  },
+  {
+    "timestamp": "[23/11/2022] [23:59:11]",
+    "productos": [],
+    "id": 3
+  },
+  {
+    "timestamp": "[23/11/2022] [23:59:14]",
+    "productos": [],
+    "id": 4
   }
 ]

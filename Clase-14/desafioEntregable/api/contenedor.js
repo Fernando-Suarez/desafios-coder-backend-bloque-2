@@ -114,7 +114,13 @@ class Contenedor {
 			let datos = JSON.parse(data);
 
 			let cart = datos.find((cart) => cart.id == idC);
+			if (!cart) {
+				throw Error(`el carrito no existe`);
+			}
 			let product = cart.productos.find((product) => product.id == idP);
+			if (!product) {
+				throw Error(`el producto no existe`);
+			}
 
 			if (cart && product) {
 				let indexProduct = cart.productos.indexOf(product);
@@ -123,16 +129,9 @@ class Contenedor {
 					this.archivo,
 					JSON.stringify(datos, null, 2)
 				);
-			} else {
-				if (!cart) {
-					throw Error(`Error el carrito no existe`);
-				}
-				if (!product) {
-					throw Error(`Error el producto no existe`);
-				}
 			}
-		} catch (err) {
-			throw Error(`Error  ${err}`);
+		} catch (error) {
+			throw Error(`error ${error}`);
 		}
 	}
 }
