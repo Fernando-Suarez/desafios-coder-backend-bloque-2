@@ -1,0 +1,22 @@
+Utilizando Mongo shell, realizar las siguientes acciones:
+1 - Crear una base de datos en MongoDB llamada 'empresa'.
+2 - Crear una colección llamada 'clientes' dentro de esa base.
+3 - Insertar un documento en la colección clientes que contenga los campos ‘nombre’ y ‘edad’.
+4 - Insertar un array de tres documentos con el mismo formato y valores distintos en la colección clientes (modo bulk).
+5 - Utilizando un sólo comando, crear una colección llamada 'articulos' e insertar dentro de ella un array de cuatro documentos con los campos
+    ‘nombre’, ‘precio’ y ‘stock’.
+6 - Mostrar las colecciones de la base 'empresa'.
+7 - Listar todos los documentos dentro de cada una de las colecciones.
+8 - Tomar el Object ID de uno de los documentos y comprobar fecha y hora de creación.
+9 - Mostrar la cantidad de documentos que tiene la colección articulos.
+
+
+1 - use empresa
+2 - db.createCollection('clientes')
+3 - db.clientes.insertOne({nombre: 'fernando', edad:'34'})
+4 - db.clientes.insertMany([{nombre: 'fernando', edad:'34'},{nombre: 'facundo', edad:'36'},{nombre: 'enrique', edad:'35'}])
+5 - db.articulos.insertMany([{nombre: 'carne' , precio: 1300, stock: 10,},{nombre: 'pan' , precio: 140, stock:20,},{nombre: 'leña' , precio: 300 , stock: 15,},{nombre: 'tomate' , precio: 250, stock: 25}])
+6 - show collections
+7 - db.articulos.find()
+8 - ObjectId("6389ed5fd81700cedeef1524").getTimestamp()
+9 - db.clientes.estimatedDocumentCount()
