@@ -1,6 +1,8 @@
 const { optionsMysql } = require('./options/mysqlConfig');
 const knex = require('knex')(optionsMysql);
 
+//*primero conectar xammp y workbench y luego ejecutar el archivo js para crear la tabla de productos.
+
 knex.schema
 	.createTable('productos', (table) => {
 		table.string('nombre'),
