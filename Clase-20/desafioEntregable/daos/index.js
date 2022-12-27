@@ -2,6 +2,8 @@ import carritoDaoArchivo from './carritos/carritoDaoArchivo.js';
 import productosDaoArchivos from './productos/productosDaoArchivo.js';
 import carritoDaoMongoDb from './carritos/carritoDaoMongoDb.js';
 import productosDaoMongoDb from './productos/productosDaoMongoDb.js';
+import carritoDaoFirebase from './carritos/carritoDaoFirebase.js';
+import productosDaoFirebase from './productos/productosDaoFirebase.js';
 import { config } from 'dotenv';
 
 config();
@@ -23,7 +25,13 @@ const getStore = () => {
 				carrito: new carritoDaoMongoDb()
 			}
 			break;
+		case 'firebase':
+			return {
+				productos: new productosDaoFirebase(),
+				carrito: new carritoDaoFirebase()
+			}
+			break;
 	}
 }
 
-export default getStore;
+export default getStore; 

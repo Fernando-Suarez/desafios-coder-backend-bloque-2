@@ -12,7 +12,7 @@ class Contenedor {
 	async save(producto) {
 		try {
 			const guardarProducto = await new this.modelo(producto).save();
-			return (`producto guardado con exito ${guardarProducto}`);
+			return guardarProducto
 		} catch (err) {
 			console.log(err);
 			throw 'No se pudo guardar el producto';
@@ -65,16 +65,16 @@ class Contenedor {
 			throw 'no se puedo eliminar';
 		}
 	}
-	// deleteAll(): void - Elimina todos los objetos presentes en el archivo.
-	// async deleteAll() {
-	// 	try {
-	// 		const borrarTodos = await this.modelo.deleteMany({});
-	// 		return 'todos los productos fueron borrados';
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 		throw 'no se pudo eliminar los productos';
-	// 	}
-	// }
+	// // deleteAll(): void - Elimina todos los objetos presentes en el archivo.
+	// // async deleteAll() {
+	// // 	try {
+	// // 		const borrarTodos = await this.modelo.deleteMany({});
+	// // 		return 'todos los productos fueron borrados';
+	// // 	} catch (error) {
+	// // 		console.log(error);
+	// // 		throw 'no se pudo eliminar los productos';
+	// // 	}
+	// // }
 
 	async updateById(id, body) {
 		
@@ -90,18 +90,20 @@ class Contenedor {
 			
 		}
 	}
-
-	// async deleteProductById(idC, idP) {
+// falta este metodo
+	
+	// async deleteProductById(idC, idP) {   
 	// 	try {
 			
 	// 		const carritoId = await this.modelo.findOne({ _id: idC });
-		
+	// 		carritoId.subdocs.pull({_id: idP})
 			
 	// 	} catch (error) {
 	// 		console.log(error);
 	// 		throw 'no se pudo eliminar el producto'
 	// 	}
 	// }
+	
 	
 }
 

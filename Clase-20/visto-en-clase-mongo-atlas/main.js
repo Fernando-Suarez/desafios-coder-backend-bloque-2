@@ -16,7 +16,7 @@ console.log('conectando...');
 connectionMG();
 console.log('servidor conectado');
 
-const getAll = async () => {
+const getAll = async () => { 
 	try {
 		const productos = await Productos.find();
 		return console.log(productos);

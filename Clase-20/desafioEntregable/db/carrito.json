@@ -1,33 +1,49 @@
 [
-	{
-		"timestamp": "[23/11/2022] [18:08:27]",
-		"productos": [
-			{
-				"nombre": " spiderman",
-				"descripcion": "juegos ps4",
-				"código": "eld320",
-				"foto": "www.google.com",
-				"precio": 1500,
-				"stock": 20,
-				"id": 2,
-				"timestamp": "[23/11/2022] [18:01:31]"
-			}
-		],
-		"id": 1
-	},
-	{
-		"timestamp": "[23/11/2022] [18:08:29]",
-		"productos": [],
-		"id": 2
-	},
-	{
-		"timestamp": "[23/11/2022] [23:59:11]",
-		"productos": [],
-		"id": 3
-	},
-	{
-		"timestamp": "[23/11/2022] [23:59:14]",
-		"productos": [],
-		"id": 4
-	}
+   {
+      "timestamp": "[23/11/2022] [18:08:27]",
+      "productos": [
+         {
+            "nombre": " spiderman",
+            "descripcion": "juegos ps4",
+            "código": "eld320",
+            "foto": "www.google.com",
+            "precio": 1500,
+            "stock": 20,
+            "id": 2,
+            "timestamp": "[23/11/2022] [18:01:31]"
+         }
+      ],
+      "id": 1
+   },
+   {
+      "timestamp": "[23/11/2022] [18:08:29]",
+      "productos": [],
+      "id": 2
+   },
+   {
+      "timestamp": "[23/11/2022] [23:59:11]",
+      "productos": [],
+      "id": 3
+   },
+   {
+      "timestamp": "[23/11/2022] [23:59:14]",
+      "productos": [],
+      "id": 4
+   },
+   {
+      "timestamp": "[27/12/2022] [14:07:59]",
+      "productos": [
+         {
+            "nombre": "Elder Rings",
+            "descripcion": "juegos ps4",
+            "código": "eld320",
+            "foto": "www.google.com",
+            "precio": 1500,
+            "stock": 20,
+            "id": 3,
+            "timestamp": "[22/12/2022] [08:51:08]"
+         }
+      ],
+      "id": 5
+   }
 ]

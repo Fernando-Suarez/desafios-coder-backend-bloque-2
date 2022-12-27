@@ -30,17 +30,18 @@ const getProductsCart = async (req, res) => {
 // POST: '/:id/productos' - Para incorporar productos al carrito por su id de producto
 
 const postProductCartId = async (req, res) => {
-	const { productoId } = req.body;
-	const { id } = req.params;
+	const { productoId }  = req.body;
+	const { id }  = req.params;
 	const carritoId = await contenedorCarrito.getById(id);
 	if (!carritoId)
 		return res.json({ error: true, msg: 'carrito no encontrado' });
 	const producto = await contenedorProductos.getById(productoId);
+	console.log(producto)
 	if (!producto)
 		return res.json({ error: true, msg: 'producto no encontrado' });
 	carritoId.productos.push(producto);
 	const productoAgregado = await contenedorCarrito.updateById(
-		id,
+		id, 
 		carritoId
 	);
 	res.json({

@@ -5,6 +5,6 @@ const carritoSchema = new Schema({
     productos:{type: Array, required:true}
 })
 
-const Carrito = model('carrito', carritoSchema);
+const Carrito = model('carritos', carritoSchema);
 
 export default Carrito;
