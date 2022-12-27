@@ -90,19 +90,31 @@ class Contenedor {
 			
 		}
 	}
-// falta este metodo
+
 	
-	// async deleteProductById(idC, idP) {   
-	// 	try {
+	async deleteProductById(idC, idP) {   
+		try {
 			
-	// 		const carritoId = await this.modelo.findOne({ _id: idC });
-	// 		carritoId.subdocs.pull({_id: idP})
+			const carritoId = await this.modelo.findOne({ _id: idC });
+			let productoId = [];
+			carritoId.productos.map(producto => {
+				if (producto._id != idP) {
+					productoId.push(producto)
+					
+				} else {
+					return 'el producto no existe'
+				}
+			})
+			carritoId.productos = [];
+			await carritoId.save();
+			carritoId.productos = productoId;
+			await carritoId.save();
 			
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 		throw 'no se pudo eliminar el producto'
-	// 	}
-	// }
+		} catch (error) {
+			console.log(error);
+			throw 'no se pudo eliminar el producto'
+		}
+	}
 	
 	
 }
