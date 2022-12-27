@@ -33,7 +33,7 @@ class Contenedor {
 	async getById(id) {
 		try {
 			const productos = await this.getAll();
-			const productoId = productos.find((producto) => producto.id === id);
+			const productoId = productos.find((producto) => producto.id === parseInt(id));
 			if (productoId) {
 				return productoId;
 			} else {
@@ -66,7 +66,7 @@ class Contenedor {
 	async deleteById(id) {
 		try {
 			const productos = await this.getAll();
-			const productoId = productos.find((producto) => producto.id === id);
+			const productoId = productos.find((producto) => producto.id === parseInt(id));
 			const filterId = productos.filter((producto) => producto != productoId);
 			await fs.promises.writeFile(
 				this.archivo,
@@ -90,7 +90,7 @@ class Contenedor {
 		try {
 			const productos = await this.getAll();
 			const indiceProducto = productos.findIndex(
-				(producto) => producto.id === id
+				(producto) => producto.id === parseInt(id)
 			);
 			if (indiceProducto !== -1) {
 				const productoEncontrado = productos[indiceProducto];
@@ -113,11 +113,11 @@ class Contenedor {
 			let data = await fs.promises.readFile(this.archivo, `utf-8`);
 			let datos = JSON.parse(data);
 
-			let cart = datos.find((cart) => cart.id == idC);
+			let cart = datos.find((cart) => cart.id == parseInt(idC));
 			if (!cart) {
 				throw Error(`el carrito no existe`);
 			}
-			let product = cart.productos.find((product) => product.id == idP);
+			let product = cart.productos.find((product) => product.id == parseInt(idP));
 			if (!product) {
 				throw Error(`el producto no existe`);
 			}

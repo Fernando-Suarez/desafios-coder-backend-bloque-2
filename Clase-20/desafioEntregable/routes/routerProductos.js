@@ -1,11 +1,11 @@
 import { Router } from 'express';
-const {
+import {
 	getProducts,
 	getProductId,
 	postProduct,
 	putProduct,
 	deleteProductId,
-} = require('../api/controladorProductos');
+} from '../api/controladorProductos.js';
 
 const routerProductos = Router();
 

@@ -1,12 +1,12 @@
 import { Router } from 'express';
 
-const {
+import {
 	postCreateCart,
 	deleteCartId,
 	getProductsCart,
 	postProductCartId,
 	deleteCartProductId,
-} = require('../api/controladorCarrito');
+} from '../api/controladorCarrito.js';
 
 const routerCarrito = Router();
 

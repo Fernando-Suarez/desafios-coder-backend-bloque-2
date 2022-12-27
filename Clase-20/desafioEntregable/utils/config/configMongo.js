@@ -10,5 +10,5 @@ const connectionMG = async () => {
 		throw 'connection failded';
 	}
 };
-
-export default connectionMG;
+const mongoDB = connectionMG()
+export default mongoDB;

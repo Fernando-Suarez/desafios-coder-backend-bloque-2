@@ -1,15 +1,14 @@
 //* imports
-const express = require('express');
-//const { Router } = express;
-const routerProductos = require('./routes/routerProductos.js');
-const routerCarrito = require('./routes/routesCarrito.js');
+import express from 'express';
+import routerProductos from './routes/routerProductos.js';
+import routerCarrito from './routes/routesCarrito.js';
 
 //* Instancias
 const app = express();
 //*middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/public', express.static(__dirname + '/public'));
+
 
 //* routes productos y carrito
 

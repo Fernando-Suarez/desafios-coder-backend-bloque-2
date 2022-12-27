@@ -1,6 +1,6 @@
-import Contenedor from ('..contenedores/contenedorArchivo.js');
-const contenedorCarrito = new Contenedor('../db/carrito.json');
-const contenedorProductos = new Contenedor('../db/productos.json');
+import storage from '../daos/index.js';
+const contenedorCarrito = storage().carrito;
+const contenedorProductos = storage().productos;
 
 // POST: '/' - Crea un carrito y devuelve su id.
 const postCreateCart = async (req, res) => {
@@ -14,7 +14,7 @@ const postCreateCart = async (req, res) => {
 
 const deleteCartId = async (req, res) => {
 	const { id } = req.params;
-	const borrarCarrito = await contenedorCarrito.deleteById(parseInt(id));
+	const borrarCarrito = await contenedorCarrito.deleteById(id);
 	if (borrarCarrito) res.json({ succes: true, msg: 'carrito eliminado' });
 	else res.json({ error: true, msg: 'Id carrito no encontrado' });
 };
@@ -23,7 +23,7 @@ const deleteCartId = async (req, res) => {
 
 const getProductsCart = async (req, res) => {
 	const { id } = req.params;
-	const carritoId = await contenedorCarrito.getById(parseInt(id));
+	const carritoId = await contenedorCarrito.getById(id);
 	if (carritoId) res.json({ succes: true, productos: carritoId.productos });
 	else res.json({ error: true, msg: 'Id carrito no encontrado' });
 };
@@ -32,19 +32,19 @@ const getProductsCart = async (req, res) => {
 const postProductCartId = async (req, res) => {
 	const { productoId } = req.body;
 	const { id } = req.params;
-	const carritoId = await contenedorCarrito.getById(parseInt(id));
+	const carritoId = await contenedorCarrito.getById(id);
 	if (!carritoId)
 		return res.json({ error: true, msg: 'carrito no encontrado' });
-	const producto = await contenedorProductos.getById(parseInt(productoId));
+	const producto = await contenedorProductos.getById(productoId);
 	if (!producto)
 		return res.json({ error: true, msg: 'producto no encontrado' });
 	carritoId.productos.push(producto);
 	const productoAgregado = await contenedorCarrito.updateById(
-		parseInt(id),
+		id,
 		carritoId
 	);
 	res.json({
-		succes: true,
+		succes: true, 
 		msg: `producto id ${producto.id} agregado al carrito id ${carritoId.id}`,
 	});
 };
@@ -54,7 +54,7 @@ const postProductCartId = async (req, res) => {
 const deleteCartProductId = async (req, res) => {
 	try {
 		const { id, id_prod } = req.params;
-		await contenedorCarrito.deleteProductById(parseInt(id), parseInt(id_prod));
+		await contenedorCarrito.deleteProductById(id, id_prod);
 		res.json({
 			succes: true,
 			msg: `producto con ID ${id_prod} eliminado del carrito con ID ${id}`,
@@ -63,7 +63,7 @@ const deleteCartProductId = async (req, res) => {
 		return res.json(`${error}`);
 	}
 };
-module.exports = {
+export {
 	postCreateCart,
 	deleteCartId,
 	getProductsCart,

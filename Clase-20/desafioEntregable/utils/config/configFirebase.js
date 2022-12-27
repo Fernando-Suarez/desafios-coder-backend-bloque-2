@@ -1,6 +1,6 @@
-const admin = require('firebase-admin');
-
-const serviceAccount = require('./privi.json');
+import admin from 'firebase-admin';
+import {getFirestore } from 'firebase-admin/firestore';
+import serviceAccount from './keyFirebase.json';
 
 console.log('conectando...');
 admin.initializeApp({

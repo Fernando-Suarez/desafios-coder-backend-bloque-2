@@ -1,5 +1,5 @@
-const Contenedor = require('./contenedor.js');
-const contenedorProductos = new Contenedor('./db/productos.json');
+import storage from '../daos/index.js';
+const contenedorProductos = storage().productos;
 
 //* GET productos
 
@@ -12,7 +12,7 @@ const getProducts = async (req, res) => {
 
 const getProductId = async (req, res) => {
 	const { id } = req.params;
-	const productosId = await contenedorProductos.getById(parseInt(id));
+	const productosId = await contenedorProductos.getById(id);
 	if (productosId == null) {
 		res.json({ error: true, msg: 'Producto no encontrado' });
 	} else {
@@ -33,7 +33,7 @@ const postProduct = async (req, res) => {
 const putProduct = async (req, res) => {
 	const { id } = req.params;
 	const { nombre, descripcion, codigo, foto, precio, stock } = req.body;
-	const updateProducto = await contenedorProductos.updateById(parseInt(id), {
+	const updateProducto = await contenedorProductos.updateById(id, {
 		nombre,
 		descripcion,
 		codigo,
@@ -41,28 +41,22 @@ const putProduct = async (req, res) => {
 		precio,
 		stock,
 	});
-	const prod = await contenedorProductos.getById(+id);
+	const prod = await contenedorProductos.getById(id);
 	if (updateProducto) res.json({ succes: true, producto: prod });
-	else res.json({ erro: true, msg: 'producto no encontrado' });
+	else res.json({ error: true, msg: 'producto no encontrado' });
 };
 
 //*DELETE borrar por id
 
 const deleteProductId = async (req, res) => {
 	const { id } = req.params;
-	const productoId = await contenedorProductos.getById(parseInt(id));
+	const productoId = await contenedorProductos.getById(id);
 	if (productoId !== null) {
-		await contenedorProductos.deleteById(parseInt(id));
+		await contenedorProductos.deleteById(id);
 		res.json({ succes: true, msg: 'Producto eliminado' });
 	} else {
 		res.json({ error: true, msg: 'Producto no encotrado' });
 	}
 };
 
-module.exports = {
-	getProducts,
-	getProductId,
-	postProduct,
-	putProduct,
-	deleteProductId,
-};
+export { getProducts, getProductId, postProduct, putProduct, deleteProductId };
