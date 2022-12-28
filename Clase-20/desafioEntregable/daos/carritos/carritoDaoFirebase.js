@@ -1,9 +1,9 @@
 import Contenedor from '../../contenedores/contenedorFirebase.js';
-import { queryCarrito,queryProductos } from '../../utils/config/configFirebase.js';
+import { queryCarrito,fieldValue } from '../../utils/config/configFirebase.js';
 
 class carritoDaoFirebase extends Contenedor {
     constructor() {
-        super(queryCarrito);
+        super(queryCarrito,fieldValue);
     }
 }
 

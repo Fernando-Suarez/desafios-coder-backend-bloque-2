@@ -1,7 +1,7 @@
 class Contenedor {
-	constructor(collection,) {
+	constructor(collection,fieldValue) {
 		this.collection = collection;
-		
+		this.fieldValue = fieldValue
 	}
 
 	// Metodos
@@ -21,9 +21,9 @@ class Contenedor {
 	}
 
 	//  getById(Number): Object - Recibe un id y devuelve el objeto con ese id, o null si no está.
-	async getById(id) {
+	async getById( id ) {
 		try {
-			const productoId = await this.collection.doc(id).get();
+			const productoId = await this.collection.doc( id.toString() ).get();
 			if (productoId) {
 				return {id:productoId.id, ...productoId.data() }
 			} else {
@@ -90,29 +90,23 @@ class Contenedor {
 	}
 	// falta 1 metodo
 	
-	// async deleteProductById(idC, idP) {
-		// 	try {
-	// 		const carrito = this.collectionCarrito.doc(id).get();
-	// 		const producto = this.collection.doc(id).get();
-	// 		const todosLosProductos = carrito.data().productos
-
-	// 		let borrarProducto = {};
-
-	// 		todosLosProductos.forEach(product => {
-	// 			if (product.id == producto.id) {
-	// 				borrarProducto = product;
-	// 			}
-	// 		});
-	
-	// 		await docCart.update({
-	// 			productos: this.FieldValue.arrayRemove(borrarProducto)
-	// 		});
-
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 		throw 'no se pudo borrar el archivo'
-	// 	}
-	// }
+	async deleteProductById(idC, idP) {
+		try {
+			const carrito = await this.collection.doc(idC).get();
+			let borrarProducto = {}			
+				carrito.data().productos.map(producto => {
+					if (producto.id == idP) {
+						borrarProducto = producto;					
+					}
+				})
+				await this.collection.doc(idC).update({
+					productos: this.fieldValue.arrayRemove(borrarProducto)
+				});
+		} catch (error) {
+			console.log(error);
+			throw 'no se pudo borrar el archivo'
+		}
+	}
 }
 
 export default Contenedor;

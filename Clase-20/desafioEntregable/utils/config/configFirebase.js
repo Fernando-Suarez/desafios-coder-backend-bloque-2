@@ -1,5 +1,5 @@
 import admin from 'firebase-admin';
-import { getFirestore} from 'firebase-admin/firestore';
+import { getFirestore,FieldValue} from 'firebase-admin/firestore';
 import serviceAccount from  './keyFirebase.json' assert {type: 'json'};
 
 console.log('conectando...');
@@ -8,8 +8,9 @@ admin.initializeApp({
 });
 
 const db = getFirestore();
+const fieldValue = FieldValue
 const queryProductos = db.collection('productos');
 const queryCarrito = db.collection('carrito');
 console.log('conectado');
 
-export { queryProductos,queryCarrito };
+export { queryProductos,queryCarrito,fieldValue };
