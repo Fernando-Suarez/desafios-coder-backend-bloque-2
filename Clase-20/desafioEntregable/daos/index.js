@@ -10,7 +10,7 @@ config();
 
 const getStore = () => {
 	// const storage = process.env.INSTANCIA;
-	const storage = 'mongoDB';  // prueba: forzar variable para trabajar con la db deseada
+	const storage = 'firebase';  // prueba: forzar variable para trabajar con la db deseada
 
 	switch (storage) {
 		case 'archivo':

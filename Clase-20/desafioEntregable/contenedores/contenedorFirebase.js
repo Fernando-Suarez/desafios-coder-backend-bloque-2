@@ -12,7 +12,7 @@ class Contenedor {
 		try {
 			const guardar = await this.collection.add(objeto);
 			if (guardar) {
-				return guardar.id
+				return {id: guardar.id,...objeto }
 			}
 		} catch (error) {
 			console.log(error);
@@ -59,7 +59,8 @@ class Contenedor {
 			const productoID = await this.collection.doc(id)
 			if (productoID) {
 				productoID.delete();
-				return 'producto eliminado con exito'
+				return productoID
+				
 			} else {
 				return 'producto no encontrado'
 			}
@@ -68,29 +69,29 @@ class Contenedor {
 			throw 'no se pudo eliminar el producto'
 		}
 	}
-// faltan 2 metodos
 	
 	
-	// async updateById(id, body) {
-	// 	try {
-	// 		const producto = await this.collection.doc(id);
-	// 		if (producto) {
-	// 			producto.update({ ...body });
-	// 			const productoActualizado = await this.collection.doc(id).get()
-	// 			return {id:productoActualizado.id,...productoActualizado.data()};
-	// 		} else {
-	// 			return 'producto no encontrado'
-	// 		}
+	async updateById(id, body) {
+		try {
+			const producto = await this.collection.doc(id);
+			if (producto) {
+				producto.update({ ...body });
+				const productoActualizado = await this.collection.doc(id).get()
+				return {id:productoActualizado.id,...productoActualizado.data()};
+			} else {
+				return 'producto no encontrado'
+			}
 			
 			
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 		throw 'no se puedo actualizar el producto'
-	// 	}
-	// }
-
+		} catch (error) {
+			console.log(error);
+			throw 'no se puedo actualizar el producto'
+		}
+	}
+	// falta 1 metodo
+	
 	// async deleteProductById(idC, idP) {
-	// 	try {
+		// 	try {
 	// 		const carrito = this.collectionCarrito.doc(id).get();
 	// 		const producto = this.collection.doc(id).get();
 	// 		const todosLosProductos = carrito.data().productos
