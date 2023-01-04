@@ -5,6 +5,7 @@ const express = require('express');
 // const { engine } = require('express-handlebars');
 const { Server: HTTPServer } = require('http');
 const { Server: IOServer } = require('socket.io');
+const { dataFaker } = require('./utils/faker');
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
@@ -13,6 +14,7 @@ const app = express();
 
 const { contenedorMysql } = require('./api/contenedor');
 const { contenedorSQLite3 } = require('./api/contenedor');
+const { contenedorMongoDb } = require('./api/contenedorMongo');
 const HTTPserver = new HTTPServer(app);
 const io = new IOServer(HTTPserver);
 
@@ -24,10 +26,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/public', express.static(__dirname + '/public'));
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//* Endpoints
 
 app.get('/', (req, res) => {
 	res.sendFile('index.html', { root: __dirname });
 });
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 //* Servidor
 const PORT = process.env.PORT || 8080;
@@ -38,7 +42,7 @@ HTTPserver.listen(PORT, () => {
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 //* funciones socket productos
 const enviarProductosSocket = async (socket) => {
-	const productos = await contenedorMysql.getAll();
+	const productos = dataFaker();
 	socket.emit('lista productos', productos);
 };
 
@@ -50,14 +54,20 @@ const guardarProducto = async (nuevoProducto) => {
 
 //* funciones socket chat
 const enviarMensajesSocket = async (socket) => {
-	const mensajes = await contenedorSQLite3.getAll();
+	const mensajes = await contenedorMongoDb.getAll();
 	socket.emit('lista mensajes', mensajes);
 };
 
 const guardarMensaje = async (nuevoMensaje) => {
 	nuevoMensaje.fecha = new Date().toLocaleString();
-	await contenedorSQLite3.save(nuevoMensaje);
-	const mensajes = await contenedorSQLite3.getAll();
+	console.log(nuevoMensaje);
+	await contenedorMongoDb.save({
+		author: nuevoMensaje,
+		mensaje: nuevoMensaje.mensaje,
+		fecha: nuevoMensaje.fecha,
+	});
+	const mensajes = await contenedorMongoDb.getAll();
+	console.log(mensajes);
 	io.sockets.emit('lista mensajes', mensajes);
 };
 
