@@ -3,7 +3,8 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" type="text/css" href="public/style.css" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
 		<title>Node Js</title>
@@ -43,7 +44,7 @@
 				<form onsubmit="return guardarMensaje(this)" id="chat-form">
 					<div>
 						<h2>Centro de Mensajes</h2>
-						<input type="email" name="id" placeholder="Email" required />
+						<input type="email" name="email" placeholder="Email" required />
 						<input type="text" name="nombre" placeholder="Nombre" required />
 						<input
 							type="text"
@@ -57,11 +58,7 @@
 					</div>
 					<div id="chat-container" class="chat-container"></div>
 					<div>
-						<input
-							type="text"
-							name="mensaje"
-							placeholder="Ingrese un mensaje"
-						/>
+						<input type="text" name="text" placeholder="Ingrese un mensaje" />
 					</div>
 
 					<div>
@@ -72,6 +69,6 @@
 			</div>
 		</div>
 
-		<script src="public/cliente.js"></script>
+		<script src="cliente.js"></script>
 	</body>
 </html>

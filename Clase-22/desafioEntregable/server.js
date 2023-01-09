@@ -6,6 +6,7 @@ const express = require('express');
 const { Server: HTTPServer } = require('http');
 const { Server: IOServer } = require('socket.io');
 const { dataFaker } = require('./utils/faker');
+const { mensajeNormalizr } = require('./utils/normalizr');
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
@@ -23,13 +24,17 @@ const io = new IOServer(HTTPserver);
 //* Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/public', express.static(__dirname + '/public'));
+app.use(express.static(`./public`));
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 //* Endpoints
 
 app.get('/', (req, res) => {
-	res.sendFile('index.html', { root: __dirname });
+	res.sendFile('index.html', { root: './' });
+});
+
+app.get('/api/productos-test', (req, res) => {
+	res.sendFile('faker.html', { root: './' });
 });
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -46,6 +51,11 @@ const enviarProductosSocket = async (socket) => {
 	socket.emit('lista productos', productos);
 };
 
+const enviarProductosRandom = async (socket) => {
+	const productos = dataFaker();
+	socket.emit('lista random', productos);
+};
+
 const guardarProducto = async (nuevoProducto) => {
 	await contenedorMysql.save(nuevoProducto);
 	const productos = await contenedorMysql.getAll();
@@ -55,19 +65,22 @@ const guardarProducto = async (nuevoProducto) => {
 //* funciones socket chat
 const enviarMensajesSocket = async (socket) => {
 	const mensajes = await contenedorMongoDb.getAll();
-	socket.emit('lista mensajes', mensajes);
+	//modificar con normalizer
+	const mensajeNormalizado = mensajeNormalizr(mensajes);
+	socket.emit('lista mensajes', {
+		id: 'mensajes',
+		mensajes: mensajeNormalizado,
+	});
 };
 
 const guardarMensaje = async (nuevoMensaje) => {
 	nuevoMensaje.fecha = new Date().toLocaleString();
-	console.log(nuevoMensaje);
 	await contenedorMongoDb.save({
 		author: nuevoMensaje,
-		mensaje: nuevoMensaje.mensaje,
+		text: nuevoMensaje.text,
 		fecha: nuevoMensaje.fecha,
 	});
 	const mensajes = await contenedorMongoDb.getAll();
-	console.log(mensajes);
 	io.sockets.emit('lista mensajes', mensajes);
 };
 
@@ -76,6 +89,7 @@ const guardarMensaje = async (nuevoMensaje) => {
 io.on('connection', (socket) => {
 	enviarProductosSocket(socket);
 	enviarMensajesSocket(socket);
+	enviarProductosRandom(socket);
 
 	socket.on('nuevo producto', (newProduct) => {
 		guardarProducto(newProduct);

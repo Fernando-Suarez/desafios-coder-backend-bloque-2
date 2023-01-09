@@ -3,9 +3,9 @@
 	<div class='chat-mensajes'></div>
 		
 			{{#each mensajes}}
-				<p><span class='mensaje-email'>{{this.author.id}} </span>
+				<p><span class='mensaje-email'>{{this.author.email}} </span>
 					<span class='mensaje-fecha'>[{{this.fecha}}] </span>
-					<span class='mensaje-contenido'>:{{this.mensaje}}</span></p>
+					<span class='mensaje-contenido'>:{{this.text}}</span></p>
 			{{/each}}
 		
 	</div>

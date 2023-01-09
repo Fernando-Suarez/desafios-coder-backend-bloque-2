@@ -11,4 +11,4 @@ const productosSchema = new Schema({
 
 const Productos = model('productos', productosSchema);
 
-export default Productos;
+export default Productos; 

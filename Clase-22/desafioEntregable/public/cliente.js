@@ -5,6 +5,7 @@ const productForm = document.getElementById('product-form');
 const productsContainer = document.getElementById('products-container');
 const chatForm = document.getElementById('chat-form');
 const chatContainer = document.getElementById('chat-container');
+const productosRandom = document.getElementById('productos-random');
 
 //* funciones socket productos
 
@@ -17,7 +18,7 @@ const cargarProducto = (e) => {
 };
 
 const renderizado = async (products) => {
-	const respond = await fetch('public/templates/productlist.handlebars');
+	const respond = await fetch('/templates/productlist.handlebars');
 	const template = await respond.text();
 	// compile the template
 	const compiledTemplate = Handlebars.compile(template);
@@ -26,12 +27,46 @@ const renderizado = async (products) => {
 	productsContainer.innerHTML = html;
 };
 
+const renderizadoRandom = async (products) => {
+	const respond = await fetch('../templates/random.handlebars');
+	const template = await respond.text();
+	const compiledTemplate = Handlebars.compile(template);
+	const html = compiledTemplate({ products });
+	productosRandom.innerHTML = html;
+};
+
 //* socket producto
 
 socket.on('lista productos', (products) => {
 	renderizado(products);
 });
+socket.on('lista random', (products) => {
+	console.log(products);
+	renderizadoRandom(products);
+});
 
+//*denormalizr
+const mensajeDenormalizr = (objetoNormalizado) => {
+	const authorSchema = new normalizr.schema.Entity(
+		'author',
+		{},
+		{ idAttribute: 'email' }
+	);
+
+	const mensajeSchema = new normalizr.schema.Entity(
+		'mensajes',
+		{
+			author: authorSchema,
+		},
+		{ idAttribute: '_id' }
+	);
+	const mensajeDesnormalizado = normalizr.denormalize(
+		objetoNormalizado.result,
+		[mensajeSchema],
+		objetoNormalizado.entities
+	);
+	return mensajeDesnormalizado;
+};
 //* funciones socket chat
 
 const guardarMensaje = (e) => {
@@ -42,7 +77,7 @@ const guardarMensaje = (e) => {
 };
 
 const renderizadoMensajes = async (mensajes) => {
-	const respond = await fetch('./public/templates/chatMensajes.handlebars');
+	const respond = await fetch('/templates/chatMensajes.handlebars');
 	const template = await respond.text();
 	const compiledTemplate = Handlebars.compile(template);
 	const html = compiledTemplate({ mensajes });
@@ -50,5 +85,21 @@ const renderizadoMensajes = async (mensajes) => {
 };
 
 socket.on('lista mensajes', (mensajes) => {
-	renderizadoMensajes(mensajes);
+	console.log(
+		'recibe mensajes back normalizados',
+		JSON.stringify(mensajes).length
+	);
+	let nuevaListaMensajes = [];
+	const mensajesDesnormalizados = mensajeDenormalizr(mensajes.mensajes);
+	console.log(
+		'mensajes desnormalizados',
+		JSON.stringify(mensajeDenormalizr(mensajes.mensajes)).length
+	);
+
+	mensajesDesnormalizados.map((data) => {
+		nuevaListaMensajes.push(data._doc);
+	});
+	console.log('nuevo array', nuevaListaMensajes);
+
+	renderizadoMensajes(nuevaListaMensajes);
 });

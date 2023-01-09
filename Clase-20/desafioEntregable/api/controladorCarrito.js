@@ -35,8 +35,9 @@ const postProductCartId = async (req, res) => {
 	const carritoId = await contenedorCarrito.getById(id);
 	if (!carritoId)
 		return res.json({ error: true, msg: 'carrito no encontrado' });
-	const producto = await contenedorProductos.getById(productoId);
-	console.log(producto)
+		const producto = await contenedorProductos.getById(productoId);
+		console.log(producto)
+	
 	if (!producto)
 		return res.json({ error: true, msg: 'producto no encontrado' });
 	carritoId.productos.push(producto);
@@ -47,7 +48,7 @@ const postProductCartId = async (req, res) => {
 	res.json({
 		succes: true, 
 		msg: `producto id ${producto.id} agregado al carrito id ${carritoId.id}`,
-	});
+	});    
 };
 
 // DELETE: '/:id/productos/:id_prod' - Eliminar un producto del carrito por su id de carrito y de producto

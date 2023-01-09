@@ -22,15 +22,16 @@ class Contenedor {
 	//  getById(Number): Object - Recibe un id y devuelve el objeto con ese id, o null si no está.
 	async getById(id) {
 		try {
+			
 			const productoId = await this.modelo.findOne({ _id: id })
-			if (productoId) {
-				return productoId
+			if (!productoId) {
+				return null
 			} else {
-				return `producto no encontrado`
+				return productoId
 			}
 		} catch (error) {
 			console.log(error);
-			throw 'no se puedo encontrar el producto'
+			throw 'no se puedo encontrar el producto' 
 		}
 	}
 
@@ -48,7 +49,7 @@ class Contenedor {
 			console.log(err);
 			throw 'No se puedo obtener los productos';
 		}
-	}
+	} 
 
 	//  deleteById(Number): void - Elimina del archivo el objeto con el id buscado.
 

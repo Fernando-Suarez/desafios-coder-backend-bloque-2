@@ -12,8 +12,8 @@ const getProducts = async (req, res) => {
 
 const getProductId = async (req, res) => {
 	const { id } = req.params;
-	const productosId = await contenedorProductos.getById(id);
-	if (productosId == null) {
+	const productosId = await contenedorProductos.getById(id.toString());
+	if (!productosId) {
 		res.json({ error: true, msg: 'Producto no encontrado' });
 	} else {
 		res.json(productosId);

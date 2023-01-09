@@ -23,11 +23,11 @@ class Contenedor {
 	//  getById(Number): Object - Recibe un id y devuelve el objeto con ese id, o null si no está.
 	async getById( id ) {
 		try {
-			const productoId = await this.collection.doc( id.toString() ).get();
-			if (productoId) {
+			const productoId = await this.collection.doc(id).get();
+			if (productoId._createTime != undefined) {
 				return {id:productoId.id, ...productoId.data() }
 			} else {
-				return 'no se encuentra el producto';
+				return null;
 			}
 		} catch (error) {
 			console.log(error);
