@@ -36,15 +36,21 @@ app.post('/cookies', (req, res) => {
 //get todas las cookies presentes
 app.get('/cookies', (req, res) => {
 	try {
-		res.send(req.cookies);
+		res.json({ cookies: req.cookies });
 	} catch (error) {
 		console.log(error);
 	}
 });
 
 //delete recibe el nombre de la cookie por parametro de ruta y la elimine
-app.delete('/cookies', (req, res) => {
+app.delete('/cookies/:nombre', (req, res) => {
 	try {
+		const { nombre } = req.params;
+		if (!nombre) {
+			res.json({ error: 'parametro no encontrado' });
+		} else {
+			res.clearCookie(nombre).json({ proceso: 'ok' });
+		}
 	} catch (error) {
 		console.log(error);
 	}
