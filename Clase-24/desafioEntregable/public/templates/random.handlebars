@@ -1,0 +1,20 @@
+<div class='container'>
+	<table class='content-table'>
+		<thead>
+			<tr>
+				<th>Nombre</th>
+				<th>Precio</th>
+				<th>Foto</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each products}}
+				<tr>
+					<td>{{this.nombre}}</td>
+					<td>{{this.precio}}</td>
+					<td><img width='60' src={{this.foto}} /></td>
+				</tr>
+			{{/each}}
+		</tbody>
+	</table>
+</div>
