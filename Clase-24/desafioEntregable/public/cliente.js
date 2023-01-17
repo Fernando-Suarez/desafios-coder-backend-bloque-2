@@ -18,7 +18,7 @@ const cargarProducto = (e) => {
 };
 
 const renderizado = async (products) => {
-	const respond = await fetch('/templates/productlist.handlebars');
+	const respond = await fetch('./views/layouts/productlist.hbs');
 	const template = await respond.text();
 	// compile the template
 	const compiledTemplate = Handlebars.compile(template);
@@ -28,7 +28,7 @@ const renderizado = async (products) => {
 };
 
 const renderizadoRandom = async (products) => {
-	const respond = await fetch('../templates/random.handlebars');
+	const respond = await fetch('../views/layouts/productlist.hbs');
 	const template = await respond.text();
 	const compiledTemplate = Handlebars.compile(template);
 	const html = compiledTemplate({ products });
@@ -77,7 +77,7 @@ const guardarMensaje = (e) => {
 };
 
 const renderizadoMensajes = async (mensajes) => {
-	const respond = await fetch('/templates/chatMensajes.handlebars');
+	const respond = await fetch('views/layouts/chatMensajes.hbs');
 	const template = await respond.text();
 	const compiledTemplate = Handlebars.compile(template);
 	const html = compiledTemplate({ mensajes });

@@ -1,20 +1,18 @@
 //* modulos
 
 const express = require('express');
-
-// const { engine } = require('express-handlebars');
+const { engine } = require('express-handlebars');
 const { Server: HTTPServer } = require('http');
 const { Server: IOServer } = require('socket.io');
 const { dataFaker } = require('./utils/faker');
 const { mensajeNormalizr } = require('./utils/normalizr');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 //* Instancias
 const app = express();
-
-const { contenedorMysql } = require('./api/contenedor');
-const { contenedorSQLite3 } = require('./api/contenedor');
 const { contenedorMongoDb } = require('./api/contenedorMongo');
 const HTTPserver = new HTTPServer(app);
 const io = new IOServer(HTTPserver);
@@ -26,15 +24,100 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`./public`));
 
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
-//* Endpoints
+//*de identificacion
 
-app.get('/', (req, res) => {
-	res.sendFile('index.html', { root: './' });
+function auth(req, res, next) {
+	if (req.session?.user === 'pepe') {
+		return next();
+	}
+	return res.status(401).send('error de autorización!');
+}
+//*config Handlebars
+
+app.set('view engine', 'hbs');
+app.set('views', './public/views');
+app.engine(
+	'hbs',
+	engine({
+		extname: '.hbs',
+		layoutsDir: './public/views/layouts',
+	})
+);
+
+//*persistencia Mongo
+app.use(
+	session({
+		store: MongoStore.create({
+			mongoUrl:
+				'mongodb+srv://fernandosuarez:ywYAKiJLhdpdtMX7@cluster0.ye0zt3v.mongodb.net/ecommerce',
+			mongoOptions: {
+				useNewUrlParser: true,
+				useUnifiedTopology: true,
+			},
+			ttl: 60,
+		}),
+		secret: 'secreto',
+		resave: false,
+		saveUninitialized: false,
+	})
+);
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+//*Endpoints session
+
+//login con session
+
+// app.get('/', (req, res) => {
+// 	return res.redirect('/login');
+// });
+
+app.get('/login', (req, res) => {
+	res.render('main', { layout: 'login' });
 });
 
-app.get('/api/productos-test', (req, res) => {
-	res.sendFile('faker.html', { root: './' });
+app.post('/login', (req, res) => {
+	console.log(req.body);
+	const { username } = req.body;
+
+	if (username != 'pepe') {
+		return res.json({ msg: 'login failed' });
+	} else {
+		req.session.user = username;
+		req.session.admin = true;
+		res.redirect('/');
+	}
+});
+
+// eliminar datos de session o cerrar session
+app.get('/logout', (req, res) => {
+	const user = req.session.user;
+	req.session.destroy((err) => {
+		if (!err) {
+			res.send('Logout ok');
+		} else {
+			res.send({ status: 'Logout error', body: err });
+		}
+	});
+});
+
+//* Endpoints
+
+// app.get('/', (req, res) => {
+// 	res.sendFile('index.html', { root: './' });
+// });
+
+app.get('/', auth, (req, res) => {
+	const user = req.session.user;
+	res.render('main', { layout: 'index', username: user });
+});
+
+// app.get('/api/productos-test', (req, res) => {
+// 	res.sendFile('faker.html', { root: './' });
+// });
+
+app.get('/api/productos-test', auth, (req, res) => {
+	res.render('main', { layout: 'faker' });
 });
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
