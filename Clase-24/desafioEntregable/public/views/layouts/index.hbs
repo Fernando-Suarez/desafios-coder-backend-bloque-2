@@ -15,7 +15,15 @@
 	</head>
 	<body>
 		{{#if username.length}}
-			<div> <h2>Bienvenido {{username}} </h2> </div>
+			<div>
+				<h2>Bienvenido {{username}} </h2>
+				{{! <form action='/logout' method='get'>
+					<input type='submit' name='username' placeholder='Logout' /></form>
+					<button type="submit"></button> }}
+				<button onclick="location.href='/logout'">
+					Desloguear
+				</button>
+			</div>
 		{{/if}}
 		<div>
 			<h1>Ingrese un Producto</h1>
