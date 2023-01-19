@@ -27,10 +27,11 @@ app.use(express.static(`./public`));
 //*de identificacion
 
 function auth(req, res, next) {
-	if (req.session?.user === 'pepe') {
+	if (req.session?.user === 'pepe' && req.session?.password === 'pepepass') {
 		return next();
 	}
-	return res.status(401).send('error de autorización!');
+	// return res.status(401).send('error de autorización!');
+	return res.redirect('/login');
 }
 //*config Handlebars
 
@@ -68,22 +69,18 @@ app.use(
 
 //login con session
 
-// app.get('/', (req, res) => {
-// 	return res.redirect('/login');
-// });
-
 app.get('/login', (req, res) => {
 	res.render('main', { layout: 'login' });
 });
 
 app.post('/login', (req, res) => {
-	console.log(req.body);
-	const { username } = req.body;
+	const { username, password } = req.body;
 
-	if (username != 'pepe') {
+	if (username != 'pepe' && password != 'pepepass') {
 		return res.json({ msg: 'login failed' });
 	} else {
 		req.session.user = username;
+		req.session.password = password;
 		req.session.admin = true;
 		res.redirect('/');
 	}
@@ -94,7 +91,7 @@ app.get('/logout', (req, res) => {
 	const user = req.session.user;
 	req.session.destroy((err) => {
 		if (!err) {
-			res.send('Logout ok');
+			res.render('main', { layout: 'logout', username: user });
 		} else {
 			res.send({ status: 'Logout error', body: err });
 		}
@@ -111,10 +108,6 @@ app.get('/', auth, (req, res) => {
 	const user = req.session.user;
 	res.render('main', { layout: 'index', username: user });
 });
-
-// app.get('/api/productos-test', (req, res) => {
-// 	res.sendFile('faker.html', { root: './' });
-// });
 
 app.get('/api/productos-test', auth, (req, res) => {
 	res.render('main', { layout: 'faker' });
