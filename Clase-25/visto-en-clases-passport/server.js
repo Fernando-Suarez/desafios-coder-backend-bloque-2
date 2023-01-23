@@ -6,7 +6,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const app = express();
 const Usuarios = require('./models/usuariosSchema');
-
+const bCrypt = require('bcrypt');
 //*persistencia por redis
 const redis = require('redis');
 const client = redis.createClient({
@@ -171,6 +171,61 @@ app.use(passport.session());
 // 		res.send('has visitado la pagina 1 vez');
 // 	}
 // });
+function getLogin(req, res) {
+	if (req.isAuthenticated()) {
+		const { username, password } = req.user;
+		const user = { username, password };
+		res.json({ profile: 'profileUser', user: { user } });
+	} else {
+		res.send('login');
+	}
+}
+
+function getSignup(req, res) {
+	if (req.isAuthenticated()) {
+		const { username, password } = req.user;
+		const user = { username, password };
+		res.render({ profile: 'profileUser', user: { user } });
+	} else {
+		res.send('signup');
+	}
+}
+
+function postLogin(req, res) {
+	const { username, password } = req.user;
+	const user = { username, password };
+	res.json({ profile: 'profileUser', user: { user } });
+}
+
+function postSignup(req, res) {
+	const { username, password } = req.user;
+	const user = { username, password };
+	res.json({ profile: 'profileUser', user: { user } });
+}
+
+//endpoints
+
+app.get('/faillogin', (req, res) => {
+	res.send('fallo el login');
+});
+
+app.get('/failsignup', (req, res) => {
+	res.send('fallo el sign up');
+});
+
+app.get('/login', getLogin);
+app.post(
+	'/login',
+	passport.authenticate('login', { failureRedirect: '/faillogin' }),
+	postLogin
+);
+
+app.get('/signup', getSignup);
+app.post(
+	'/signup',
+	passport.authenticate('signup', { failureRedirect: '/failsignup' }),
+	postSignup
+);
 
 //servidor
 const PORT = process.env.PORT || 8080;

@@ -7,32 +7,23 @@ const { Server: IOServer } = require('socket.io');
 const { dataFaker } = require('./utils/faker');
 const { mensajeNormalizr } = require('./utils/normalizr');
 const session = require('express-session');
-const MongoStore = require('connect-mongo');
+const bCrypt = require('bcrypt');
+const mongoose = require('mongoose');
+const routes = require('./routes/routesUsuarios');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const Usuarios = require('./models/modeloMongoUsuarios');
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 //* Instancias
 const app = express();
-const { contenedorMongoDb } = require('./api/contenedorMongo');
+const { contenedorMongoDb } = require('./contenedores/contenedorMongo');
 const HTTPserver = new HTTPServer(app);
 const io = new IOServer(HTTPserver);
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
-//* Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(`./public`));
-
-//*de identificacion
-
-function auth(req, res, next) {
-	if (req.session?.user === 'pepe' && req.session?.password === 'pepepass') {
-		return next();
-	}
-	// return res.status(401).send('error de autorización!');
-	return res.redirect('/login');
-}
 //*config Handlebars
 
 app.set('view engine', 'hbs');
@@ -44,74 +35,190 @@ app.engine(
 		layoutsDir: './public/views/layouts',
 	})
 );
+//----------------------------------------------------------------------------------------------------------------------------------------------
+//*persistencia por redis
+const redis = require('redis');
+const client = redis.createClient({
+	legacyMode: true,
+});
+client
+	.connect()
+	.then(() => console.log('CONNECTED to Redis'))
+	.catch((e) => {
+		console.error(e);
+		throw 'can not conect Redis';
+	});
+const RedisStore = require('connect-redis')(session);
+//*------------------------------------
 
 //*persistencia Mongo
+mongoose
+	.connect(
+		'mongodb+srv://fernandosuarez:ywYAKiJLhdpdtMX7@cluster0.ye0zt3v.mongodb.net/ecommerce'
+	)
+	.then(() => console.log('Connect to mongo'))
+	.catch((error) => {
+		console.log(error);
+		throw 'connection failded';
+	});
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+//* funcion passport password validacion
+const isValidPassword = (user, password) => {
+	return bCrypt.compareSync(password, user.password);
+};
+
+//* funcion passport encryptar password
+const createHash = (password) => {
+	return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+};
+
+//* funcion autentificacion
+function checkAuthentication(req, res, next) {
+	if (req.isAuthenticated()) {
+		next();
+	} else {
+		res.redirect('/login');
+	}
+}
+
+//*passport config LocalStrategy Login
+passport.use(
+	'login',
+	new LocalStrategy((username, password, done) => {
+		Usuarios.findOne({ username }, (err, user) => {
+			if (err) {
+				return done(err);
+			}
+			if (!user) {
+				console.log(`User Not Found With Username ${username}`);
+				return done(null, false);
+			}
+			if (!isValidPassword) {
+				console.log('Invalid Password');
+				return done(null, false);
+			}
+			return done(null, user);
+		});
+	})
+);
+
+//* passport config LocalStrategy Sign UP
+passport.use(
+	'signup',
+	new LocalStrategy(
+		{
+			passReqToCallback: true,
+		},
+		(req, username, password, done) => {
+			Usuarios.findOne({ username: username }, function (err, user) {
+				if (err) {
+					console.log('Error in SignUp: ' + err);
+					return done(err);
+				}
+
+				if (user) {
+					console.log('User already exists');
+					return done(null, false);
+				}
+
+				const newUser = {
+					username: username,
+					password: createHash(password),
+					email: req.body.email,
+					firstName: req.body.firstName,
+					lastName: req.body.lastName,
+				};
+				Usuarios.create(newUser, (err, userWithId) => {
+					if (err) {
+						console.log('Error in Saving user: ' + err);
+						return done(err);
+					}
+					console.log(user);
+					console.log('User Registration succesful');
+					return done(null, userWithId);
+				});
+			});
+		}
+	)
+);
+
+//* passport serializar y deserializar
+passport.serializeUser((user, done) => {
+	done(null, user._id);
+});
+
+passport.deserializeUser((id, done) => {
+	Usuarios.findById(id, done);
+});
+//-------------------------------------------------------------------------------------------------------------------------------------------
+//* Middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(`./public`));
 app.use(
 	session({
-		store: MongoStore.create({
-			mongoUrl:
-				'mongodb+srv://fernandosuarez:ywYAKiJLhdpdtMX7@cluster0.ye0zt3v.mongodb.net/ecommerce',
-			mongoOptions: {
-				useNewUrlParser: true,
-				useUnifiedTopology: true,
-			},
-			ttl: 60,
+		//*persistencia por redis
+		store: new RedisStore({
+			host: '127.0.0.1',
+			port: 6379,
+			client: client,
+			ttl: 300,
 		}),
 		secret: 'secreto',
-		resave: false,
+		cookie: {
+			httpOnly: false,
+			secure: false,
+			maxAge: 86400000, // un dia
+		},
+		rolling: true,
+		resave: true,
 		saveUninitialized: false,
 	})
 );
 
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//*de identificacion
 
-//*Endpoints session
-
-//login con session
-
-app.get('/login', (req, res) => {
-	res.render('main', { layout: 'login' });
-});
-
-app.post('/login', (req, res) => {
-	const { username, password } = req.body;
-
-	if (username != 'pepe' && password != 'pepepass') {
-		return res.json({ msg: 'login failed' });
-	} else {
-		req.session.user = username;
-		req.session.password = password;
-		req.session.admin = true;
-		res.redirect('/');
-	}
-});
-
-// eliminar datos de session o cerrar session
-app.get('/logout', (req, res) => {
-	const user = req.session.user;
-	req.session.destroy((err) => {
-		if (!err) {
-			res.render('main', { layout: 'logout', username: user });
-		} else {
-			res.send({ status: 'Logout error', body: err });
-		}
-	});
-});
-
+//passport iniciar
+app.use(passport.initialize());
+app.use(passport.session());
 //* Endpoints
 
-// app.get('/', (req, res) => {
-// 	res.sendFile('index.html', { root: './' });
-// });
-
-app.get('/', auth, (req, res) => {
-	const user = req.session.user;
-	res.render('main', { layout: 'index', username: user });
+app.get('/', checkAuthentication, (req, res) => {
+	const user = req.user;
+	console.log(user);
+	res.render('main', { layout: 'index', username: user.username });
 });
 
-app.get('/api/productos-test', auth, (req, res) => {
+app.get('/api/productos-test', checkAuthentication, (req, res) => {
 	res.render('main', { layout: 'faker' });
 });
+
+//*Endpoints passport
+app.get('/login', routes.getLogin);
+app.post(
+	'/login',
+	passport.authenticate('login', { failureRedirect: '/faillogin' }),
+	routes.postLogin
+);
+app.get('/faillogin', routes.getFaillogin);
+app.get('/signup', routes.getSignup);
+app.post(
+	'/signup',
+	passport.authenticate('signup', { failureRedirect: '/failsignup' }),
+	routes.postSignup
+);
+app.get('/failsignup', routes.getFailsignup);
+app.get('/logout', routes.getLogout);
+
+app.get('/ruta-protegida', checkAuthentication, (req, res) => {
+	const { username, password } = req.user;
+	const user = { username, password };
+	res.send('<h1>Ruta ok!</h1>');
+});
+
+app.get('*', routes.failRoute);
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 //* Servidor
@@ -152,7 +259,7 @@ const enviarMensajesSocket = async (socket) => {
 const guardarMensaje = async (nuevoMensaje) => {
 	nuevoMensaje.fecha = new Date().toLocaleString();
 	await contenedorMongoDb.save({
-		author: nuevoMensaje,
+		r: nuevoMensaje,
 		text: nuevoMensaje.text,
 		fecha: nuevoMensaje.fecha,
 	});
