@@ -168,7 +168,7 @@ app.use(
 		cookie: {
 			httpOnly: false,
 			secure: false,
-			maxAge: 86400000, // un dia
+			maxAge: 600000, // 10 min
 		},
 		rolling: true,
 		resave: true,
