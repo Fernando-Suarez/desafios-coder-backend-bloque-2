@@ -11,8 +11,7 @@ function getLogin(req, res) {
 function getSignup(req, res) {
 	if (req.isAuthenticated()) {
 		const { username, password } = req.user;
-		const user = { username, password };
-		res.send('usuario registrado' + user.username);
+		res.redirect('/');
 	} else {
 		res.render('main', { layout: 'signup' });
 	}
@@ -21,24 +20,21 @@ function getSignup(req, res) {
 function postLogin(req, res) {
 	const { username, password } = req.user;
 	const user = { username, password };
-	if (!user.username && !user.password) {
-		res.json({ msg: 'usuario no registrado' });
-	}
 	res.redirect('/');
 }
 
 function postSignup(req, res) {
 	const { username, password } = req.user;
 	const user = { username, password };
-	res.render('profileUser', { user });
+	res.render('main', { layout: 'login' });
 }
 
 function getFaillogin(req, res) {
-	res.render('login-error', {});
+	res.render('main', { layout: 'login-error' });
 }
 
 function getFailsignup(req, res) {
-	res.render('signup-error', {});
+	res.render('main', { layout: 'signup-error' });
 }
 
 function getLogout(req, res) {
@@ -54,10 +50,6 @@ function getLogout(req, res) {
 	// res.render('main',{layout: 'index'});
 }
 
-function failRoute(req, res) {
-	res.status(404).render('routing-error', {});
-}
-
 module.exports = {
 	getLogin,
 	getSignup,
@@ -66,5 +58,4 @@ module.exports = {
 	getFaillogin,
 	getFailsignup,
 	getLogout,
-	failRoute,
 };

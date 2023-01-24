@@ -95,7 +95,7 @@ passport.use(
 				console.log(`User Not Found With Username ${username}`);
 				return done(null, false);
 			}
-			if (!isValidPassword) {
+			if (!isValidPassword(user, password)) {
 				console.log('Invalid Password');
 				return done(null, false);
 			}
@@ -127,8 +127,6 @@ passport.use(
 					username: username,
 					password: createHash(password),
 					email: req.body.email,
-					firstName: req.body.firstName,
-					lastName: req.body.lastName,
 				};
 				Usuarios.create(newUser, (err, userWithId) => {
 					if (err) {
@@ -187,7 +185,6 @@ app.use(passport.session());
 
 app.get('/', checkAuthentication, (req, res) => {
 	const user = req.user;
-	console.log(user);
 	res.render('main', { layout: 'index', username: user.username });
 });
 
@@ -211,14 +208,6 @@ app.post(
 );
 app.get('/failsignup', routes.getFailsignup);
 app.get('/logout', routes.getLogout);
-
-app.get('/ruta-protegida', checkAuthentication, (req, res) => {
-	const { username, password } = req.user;
-	const user = { username, password };
-	res.send('<h1>Ruta ok!</h1>');
-});
-
-app.get('*', routes.failRoute);
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 //* Servidor
