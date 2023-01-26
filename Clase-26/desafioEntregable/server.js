@@ -13,6 +13,7 @@ const routes = require('./routes/routesUsuarios');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const Usuarios = require('./models/modeloMongoUsuarios');
+const MongoStore = require('connect-mongo');
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
@@ -36,19 +37,7 @@ app.engine(
 	})
 );
 //----------------------------------------------------------------------------------------------------------------------------------------------
-//*persistencia por redis
-const redis = require('redis');
-const client = redis.createClient({
-	legacyMode: true,
-});
-client
-	.connect()
-	.then(() => console.log('CONNECTED to Redis'))
-	.catch((e) => {
-		console.error(e);
-		throw 'can not conect Redis';
-	});
-const RedisStore = require('connect-redis')(session);
+
 //*------------------------------------
 
 //*persistencia Mongo
@@ -157,21 +146,23 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`./public`));
 app.use(
 	session({
-		//*persistencia por redis
-		store: new RedisStore({
-			host: '127.0.0.1',
-			port: 6379,
-			client: client,
-			ttl: 300,
+		//*persistencia por mongo
+		store: MongoStore.create({
+			mongoUrl:
+				'mongodb+srv://fernandosuarez:ywYAKiJLhdpdtMX7@cluster0.ye0zt3v.mongodb.net/ecommerce',
+			mongoOptions: {
+				useNewUrlParser: true,
+				useUnifiedTopology: true,
+			},
 		}),
+		//*----------------------------------
 		secret: 'secreto',
 		cookie: {
 			httpOnly: false,
 			secure: false,
-			maxAge: 600000, // 10 min
+			maxAge: 600000,
 		},
-		rolling: true,
-		resave: true,
+		resave: false,
 		saveUninitialized: false,
 	})
 );
