@@ -1,5 +1,5 @@
 //* modulos
-
+const yargs = require('yargs')(process.argv.slice(2));
 const express = require('express');
 const { engine } = require('express-handlebars');
 const { Server: HTTPServer } = require('http');
@@ -9,12 +9,23 @@ const { mensajeNormalizr } = require('./utils/normalizr');
 const session = require('express-session');
 const bCrypt = require('bcrypt');
 const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo');
 const routes = require('./routes/routesUsuarios');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const Usuarios = require('./models/modeloMongoUsuarios');
+const dotenv = require('dotenv').config();
+const { fork } = require('child_process');
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//* puerto en yags por defecto
+const args = yargs.default({ PORT: 8080 }).alias({ p: 'PORT' }).argv;
+const PORT = args.p;
+
+//*.env
+const DB_MONGO = process.env.DB_MONGO_PASS;
+const HOST = process.env.HOST;
+const SECRET_MONGO = process.env.SECRET_REDIS;
 
 //* Instancias
 const app = express();
@@ -36,25 +47,13 @@ app.engine(
 	})
 );
 //----------------------------------------------------------------------------------------------------------------------------------------------
-//*persistencia por redis
-const redis = require('redis');
-const client = redis.createClient({
-	legacyMode: true,
-});
-client
-	.connect()
-	.then(() => console.log('CONNECTED to Redis'))
-	.catch((e) => {
-		console.error(e);
-		throw 'can not conect Redis';
-	});
-const RedisStore = require('connect-redis')(session);
+
 //*------------------------------------
 
 //*persistencia Mongo
 mongoose
 	.connect(
-		'mongodb+srv://fernandosuarez:ywYAKiJLhdpdtMX7@cluster0.ye0zt3v.mongodb.net/ecommerce'
+		`mongodb+srv://fernandosuarez:${DB_MONGO}@cluster0.ye0zt3v.mongodb.net/ecommerce`
 	)
 	.then(() => console.log('Connect to mongo'))
 	.catch((error) => {
@@ -152,26 +151,28 @@ passport.deserializeUser((id, done) => {
 });
 //-------------------------------------------------------------------------------------------------------------------------------------------
 //* Middlewares
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`./public`));
 app.use(
 	session({
-		//*persistencia por redis
-		store: new RedisStore({
-			host: '127.0.0.1',
-			port: 6379,
-			client: client,
-			ttl: 300,
+		//*persistencia por mongo
+		store: MongoStore.create({
+			mongoUrl: `mongodb+srv://fernandosuarez:${DB_MONGO}@cluster0.ye0zt3v.mongodb.net/ecommerce`,
+			mongoOptions: {
+				useNewUrlParser: true,
+				useUnifiedTopology: true,
+			},
 		}),
-		secret: 'secreto',
+		//*----------------------------------
+		secret: `${SECRET_MONGO}`,
 		cookie: {
 			httpOnly: false,
 			secure: false,
-			maxAge: 600000, // 10 min
+			maxAge: 600000,
 		},
-		rolling: true,
-		resave: true,
+		resave: false,
 		saveUninitialized: false,
 	})
 );
@@ -190,6 +191,30 @@ app.get('/', checkAuthentication, (req, res) => {
 
 app.get('/api/productos-test', checkAuthentication, (req, res) => {
 	res.render('main', { layout: 'faker' });
+});
+
+app.get('/info', (req, res) => {
+	const dataProcess = {
+		argEntrada: process.argv,
+		pathEjecucion: process.execPath,
+		sistema: process.platform,
+		processId: process.pid,
+		nodeVersion: process.version,
+		proyectURL: process.cwd(),
+		rss: process.memoryUsage().rss,
+	};
+	res.render('main', { layout: 'info', dataProcess: dataProcess });
+});
+
+app.get('/api/randoms', (req, res) => {
+	let { cant } = req.query;
+	process.env.CANT = cant;
+	// const sum = calculo();
+	let objetoAleatorio = fork('./utils/objRandom.js');
+
+	objetoAleatorio.on('message', (data) => {
+		return res.send(data);
+	});
 });
 
 //*Endpoints passport
@@ -211,9 +236,8 @@ app.get('/logout', routes.getLogout);
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 //* Servidor
-const PORT = process.env.PORT || 8080;
 HTTPserver.listen(PORT, () => {
-	console.log(`Servidor escuchado en el puerto http://localhost:${PORT}`);
+	console.log(`Servidor escuchado en el puerto ${HOST}:${PORT}`);
 });
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
