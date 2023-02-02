@@ -18,7 +18,7 @@ const objRandom = () => {
 
 	// Utilizo las posiciones del array para guardar el conteo del número random que aparece.
 	for (let i = 0; i <= cant; i++) {
-		let random = Math.floor(Math.random() * (1000 - 1) + 1);
+		let random = Math.floor(Math.random() * (1001 - 1) + 1);
 		arr[random]++;
 	}
 

@@ -18,7 +18,7 @@ const dotenv = require('dotenv').config();
 const { fork } = require('child_process');
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
-//* puerto en yags por defecto
+//* puerto con yargs por defecto
 const args = yargs.default({ PORT: 8080 }).alias({ p: 'PORT' }).argv;
 const PORT = args.p;
 
