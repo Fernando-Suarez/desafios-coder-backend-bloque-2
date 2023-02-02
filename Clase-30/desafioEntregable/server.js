@@ -17,7 +17,13 @@ const Usuarios = require('./models/modeloMongoUsuarios');
 const dotenv = require('dotenv').config();
 const { fork } = require('child_process');
 
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//* Instancias
+const app = express();
+const { contenedorMongoDb } = require('./contenedores/contenedorMongo');
+const HTTPserver = new HTTPServer(app);
+const io = new IOServer(HTTPserver);
+
+//--------------------------------------------------------------------------------------------------------------------------------------------//
 //* puerto en yags por defecto
 const args = yargs.default({ PORT: 8080 }).alias({ p: 'PORT' }).argv;
 const PORT = args.p;
@@ -29,15 +35,38 @@ const SECRET_MONGO = process.env.SECRET_REDIS;
 
 // desafio 15 ---------------------------------------------------------------------------------------------------------------------------------
 
+const cluster = require(`cluster`);
+const numCPUs = require(`os`).cpus().length;
+
+const FORK = yargs.argv.FORK;
+const CLUSTER = yargs.argv.CLUSTER;
+
+const runServer = (PORT) => {
+	HTTPserver.listen(PORT, () =>
+		console.log(`Servidor escuchando en el puerto http://${HOST}:${PORT}`)
+	);
+};
+
+if (CLUSTER) {
+	if (cluster.isMaster) {
+		console.log(`Nodo primario ${process.pid} corriendo`);
+
+		for (let i = 0; i < numCPUs; i++) {
+			cluster.fork();
+		}
+
+		cluster.on(`exit`, (worker, code, signal) => {
+			console.log(`Worker ${worker.process.pid} finalizado`);
+			cluster.fork();
+		});
+	} else {
+		console.log(`Nodo Worker corriendo en el proceso ${process.pid}`);
+		runServer(PORT);
+	}
+} else {
+	runServer(PORT);
+}
 //----------------------------------------------------------------------------------------------------------------------------------------------
-
-//* Instancias
-const app = express();
-const { contenedorMongoDb } = require('./contenedores/contenedorMongo');
-const HTTPserver = new HTTPServer(app);
-const io = new IOServer(HTTPserver);
-
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 //*config Handlebars
 
@@ -206,6 +235,7 @@ app.get('/info', (req, res) => {
 		nodeVersion: process.version,
 		proyectURL: process.cwd(),
 		rss: process.memoryUsage().rss,
+		procesadores: numCPUs,
 	};
 	res.render('main', { layout: 'info', dataProcess: dataProcess });
 });
@@ -215,7 +245,7 @@ app.get('/api/randoms', (req, res) => {
 	process.env.CANT = cant;
 	// const sum = calculo();
 	let objetoAleatorio = fork('./utils/objRandom.js');
-
+	console.log(PORT);
 	objetoAleatorio.on('message', (data) => {
 		return res.send(data);
 	});
@@ -240,9 +270,9 @@ app.get('/logout', routes.getLogout);
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 //* Servidor
-HTTPserver.listen(PORT, () => {
-	console.log(`Servidor escuchado en el puerto ${HOST}:${PORT}`);
-});
+// HTTPserver.listen(PORT, () => {
+// 	console.log(`Servidor escuchado en el puerto ${HOST}:${PORT}`);
+// });
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 //* funciones socket productos
