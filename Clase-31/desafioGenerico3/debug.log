@@ -1,0 +1,31 @@
+{"level":"debug","message":"127.0.0.1 - log debug"}
+{"level":"verbose","message":"127.0.0.1 - log verbose"}
+{"level":"info","message":"127.0.0.1 - log info"}
+{"level":"warn","message":"127.0.0.1 - log warn"}
+{"level":"error","message":"127.0.0.1 - log error"}
+{"level":"info","message":"operacion exitosa"}
+{"level":"info","message":"operacion exitosa"}
+{"level":"info","message":"operacion exitosa"}
+{"level":"info","message":"operacion exitosa"}
+{"level":"info","message":"operacion exitosa"}
+{"level":"info","message":"operacion exitosa"}
+{"level":"info","message":"operacion exitosa"}
+{"level":"info","message":"operacion exitosa"}
+{"level":"info","message":"operacion exitosa"}
+{"level":"info","message":"operacion exitosa"}
+{"level":"info","message":"operacion exitosa"}
+{"level":"info","message":"operacion exitosa"}
+{"level":"info","message":"operacion exitosa"}
+{"level":"info","message":"operacion exitosa"}
+{"level":"info","message":"operacion exitosa"}
+{"level":"info","message":"operacion exitosa"}
+{"level":"info","message":"operacion exitosa"}
+{"level":"info","message":"operacion exitosa - log info"}
+{"level":"info","message":"operacion exitosa - log info"}
+{"level":"info","message":"operacion exitosa - log info"}
+{"level":"info","message":"operacion exitosa - log info"}
+{"level":"info","message":"operacion exitosa - log info"}
+{"level":"info","message":"operacion exitosa - log info"}
+{"level":"error","message":"1 de los 2 valores no es un numero"}
+{"level":"info","message":"operacion exitosa - log info"}
+{"level":"warn","message":"recurso invalido"}
