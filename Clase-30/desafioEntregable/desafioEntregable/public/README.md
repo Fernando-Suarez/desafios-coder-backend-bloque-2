@@ -70,7 +70,7 @@ modo Fork:
 
 pm2 start server.js --name="server1" --watch
 
-modo Cluster con el max de cores:
+modo Cluster con el max de cores: descomentar lineas en nginx.config
 
 pm2 start server.js --name="server2" --watch -i max -- --PORT 8081
 
@@ -81,11 +81,11 @@ pm2 start server.js --name="server4" --watch -i 1 -- --PORT 8083
 pm2 start server.js --name="server5" --watch -i 1 -- --PORT 8084
 pm2 start server.js --name="server6" --watch -i 1 -- --PORT 8085
 
-    descargar mainline version / windows: http://nginx.org/en/download.html
+    crear lo carpeta temp en clase-30/desafioEntregable.
 
-    abrir la ruta de la carpeta en CMD: ejecutar: start nginx.exe
+    abrir la ruta del archivo nginx.exe en CMD: ejecutar:  .\nginx.exe
 
-    cambiar contenido del archivo nginx.conf por nginxConfiguracion.conf
+    cambiar contenido del archivo nginx.conf para probar el cluster max en caso de crearlo en el puerto 8081
 
     Luego de realizar cambios en el archivo config: ./nginx.exe -s reload
 

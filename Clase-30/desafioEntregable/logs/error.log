@@ -59,3 +59,5 @@
 2023/02/06 19:31:55 [emerg] 15544#4612: duplicate location "/api/randoms" in D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-30\desafioEntregable/conf/nginx.conf:37
 2023/02/06 19:34:05 [notice] 1344#17904: signal process started
 2023/02/06 19:34:05 [error] 1344#17904: CreateFile() "D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-30\desafioEntregable/logs/nginx.pid" failed (2: El sistema no puede encontrar el archivo especificado)
+2023/02/06 20:09:31 [emerg] 18160#3600: duplicate location "/api/randoms" in D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-30\desafioEntregable/conf/nginx.conf:37
+2023/02/06 20:09:38 [emerg] 14500#12356: duplicate location "/api/randoms" in D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-30\desafioEntregable/conf/nginx.conf:37
