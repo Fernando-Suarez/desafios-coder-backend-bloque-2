@@ -1,6 +1,7 @@
-LOGGERS, GZIP y ANÁLISIS DE PERFORMANCE
+# LOGGERS, GZIP y ANÁLISIS DE PERFORMANCE
 
-1 - Consigna:
+## 1 - Consigna:
+
 Incorporar al proyecto de servidor de trabajo la compresión gzip.
 Verificar sobre la ruta /info con y sin compresión, la diferencia de cantidad de bytes devueltos en un caso y otro.
 
@@ -20,7 +21,9 @@ Registrar sólo los logs de warning a un archivo llamada warn.log
 
 Enviar sólo los logs de error a un archivo llamada error.log
 
-2 - Consigna: Luego, realizar el análisis completo de performance del servidor con el que venimos trabajando.
+## 2 - Consigna:
+
+Luego, realizar el análisis completo de performance del servidor con el que venimos trabajando.
 Vamos a trabajar sobre la ruta '/info', en modo fork, agregando ó extrayendo un console.log de la información colectada antes de devolverla al cliente. Además desactivaremos el child_process de la ruta '/randoms'
 Para ambas condiciones (con o sin console.log) en la ruta '/info' OBTENER:
 
@@ -37,7 +40,7 @@ consigna 1:
 
 compresion con gzip
 
-<!-- ![](https://github.com/Fernando-Suarez/desafios-coder-backend-bloque-2/blob/main/Clase-33/desafioEntregable/assets/con_gzip.png) -->
+![](https://github.com/Fernando-Suarez/desafios-coder-backend-bloque-2/blob/main/Clase-33/desafioEntregable/assets/con_gzip.png)
 
 compresion sin gzip
 
@@ -61,4 +64,18 @@ consigna 2:
 
 ![](https://github.com/Fernando-Suarez/desafios-coder-backend-bloque-2/blob/main/Clase-33/desafioEntregable/assets/result-prof-process-sin-console.png)
 
-2.
+    resultado con autocannon con console.log
+
+![](https://github.com/Fernando-Suarez/desafios-coder-backend-bloque-2/blob/main/Clase-33/desafioEntregable/assets/autocannon_%20con_console.png)
+
+    resultado con autocannon sin console.log
+
+![](https://github.com/Fernando-Suarez/desafios-coder-backend-bloque-2/blob/main/Clase-33/desafioEntregable/assets/autocannon_sin_console.png)
+
+2.  resultado con --inspect con console.log
+
+![](https://github.com/Fernando-Suarez/desafios-coder-backend-bloque-2/blob/main/Clase-33/desafioEntregable/assets/inspect_con_console.png)
+
+     resultado con --inspect sin console.log
+
+![](https://github.com/Fernando-Suarez/desafios-coder-backend-bloque-2/blob/main/Clase-33/desafioEntregable/assets/inspect_sin_console.png)
