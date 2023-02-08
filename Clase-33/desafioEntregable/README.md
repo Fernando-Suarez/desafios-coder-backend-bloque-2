@@ -31,3 +31,13 @@ Para ambas condiciones (con o sin console.log) en la ruta '/info' OBTENER:
 3. El diagrama de flama con 0x, emulando la carga con Autocannon con los mismos parámetros anteriores.
    Realizar un informe en formato pdf sobre las pruebas realizadas incluyendo los resultados de todos los test (texto e imágenes).
    👉 Al final incluir la conclusión obtenida a partir del análisis de los datos.
+
+soluciones :
+
+compresion con gzip
+
+![](https://github.com/Fernando-Suarez/desafios-coder-backend-bloque-2/blob/main/Clase-33/desafioEntregable/assets/con_gzip.png)
+
+compresion sin gzip
+
+![](https://github.com/Fernando-Suarez/desafios-coder-backend-bloque-2/blob/main/Clase-33/desafioEntregable/assets/sin_gzip.png)
