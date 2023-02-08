@@ -189,7 +189,7 @@ passport.deserializeUser((id, done) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(express.static(`./public`));
+app.use(express.static(`./public`));
 app.use(
 	session({
 		//*persistencia por mongo
@@ -226,11 +226,11 @@ app.get('/', checkAuthentication, (req, res) => {
 });
 
 app.get('/api/productos-test', checkAuthentication, (req, res) => {
-	logger.log('info', 'Ruta: / - Metodo: GET');
+	logger.log('info', 'Ruta: /api/productos-test - Metodo: GET');
 	res.render('main', { layout: 'faker' });
 });
 
-app.get('/info', compression(), (req, res) => {
+app.get('/info', (req, res) => {
 	const dataProcess = {
 		argEntrada: process.argv,
 		pathEjecucion: process.execPath,
@@ -241,13 +241,14 @@ app.get('/info', compression(), (req, res) => {
 		rss: process.memoryUsage().rss,
 		procesadores: numCPUs,
 	};
-	logger.log('info', 'Ruta: / - Metodo: GET');
+	logger.log('info', 'Ruta: /info - Metodo: GET');
+	console.log(dataProcess);
 	res.render('main', { layout: 'info', dataProcess: dataProcess });
 });
 
-app.get('*', (req, res) => {
-	logger.log('warn', 'Ruta: inexistente - Metodo: GET');
-});
+// app.get('*', (req, res) => {
+// 	logger.log('warn', 'Ruta: inexistente - Metodo: GET');
+// });
 
 // app.get('/api/randoms', (req, res) => {
 // 	let { cant } = req.query;
@@ -286,41 +287,61 @@ HTTPserver.listen(PORT, () => {
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 //* funciones socket productos
 const enviarProductosSocket = async (socket) => {
-	const productos = dataFaker();
-	socket.emit('lista productos', productos);
+	try {
+		const productos = dataFaker();
+		socket.emit('lista productos', productos);
+	} catch (error) {
+		logger.log('error', 'error al enviar productos db');
+	}
 };
 
 const enviarProductosRandom = async (socket) => {
-	const productos = dataFaker();
-	socket.emit('lista random', productos);
+	try {
+		const productos = dataFaker();
+		socket.emit('lista random', productos);
+	} catch (error) {
+		logger.log('error', ' error al enviar productos random');
+	}
 };
 
 const guardarProducto = async (nuevoProducto) => {
-	await contenedorMysql.save(nuevoProducto);
-	const productos = await contenedorMysql.getAll();
-	io.sockets.emit('lista productos', productos);
+	try {
+		await contenedorMysql.save(nuevoProducto);
+		const productos = await contenedorMysql.getAll();
+		io.sockets.emit('lista productos', productos);
+	} catch (error) {
+		logger.log('error', 'no se pudo guardar el producto');
+	}
 };
 
 //* funciones socket chat
 const enviarMensajesSocket = async (socket) => {
-	const mensajes = await contenedorMongoDb.getAll();
-	//modificar con normalizer
-	const mensajeNormalizado = mensajeNormalizr(mensajes);
-	socket.emit('lista mensajes', {
-		id: 'mensajes',
-		mensajes: mensajeNormalizado,
-	});
+	try {
+		const mensajes = await contenedorMongoDb.getAll();
+		//modificar con normalizer
+		const mensajeNormalizado = mensajeNormalizr(mensajes);
+		socket.emit('lista mensajes', {
+			id: 'mensajes',
+			mensajes: mensajeNormalizado,
+		});
+	} catch (error) {
+		logger.log('error', 'no se pudieron enviar los mensajes');
+	}
 };
 
 const guardarMensaje = async (nuevoMensaje) => {
-	nuevoMensaje.fecha = new Date().toLocaleString();
-	await contenedorMongoDb.save({
-		r: nuevoMensaje,
-		text: nuevoMensaje.text,
-		fecha: nuevoMensaje.fecha,
-	});
-	const mensajes = await contenedorMongoDb.getAll();
-	io.sockets.emit('lista mensajes', mensajes);
+	try {
+		nuevoMensaje.fecha = new Date().toLocaleString();
+		await contenedorMongoDb.save({
+			r: nuevoMensaje,
+			text: nuevoMensaje.text,
+			fecha: nuevoMensaje.fecha,
+		});
+		const mensajes = await contenedorMongoDb.getAll();
+		io.sockets.emit('lista mensajes', mensajes);
+	} catch (error) {
+		logger.log('error', 'no se pudo guardar el mensaje');
+	}
 };
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//

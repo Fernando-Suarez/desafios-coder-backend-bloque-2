@@ -1,0 +1,236 @@
+Statistical profiling result from con_console.log, (1430 ticks, 0 unaccounted, 0 excluded).
+
+ [Shared libraries]:
+   ticks  total  nonlib   name
+   1102   77.1%          C:\Windows\SYSTEM32\ntdll.dll
+    303   21.2%          C:\Program Files\nodejs\node.exe
+      2    0.1%          C:\Windows\System32\KERNELBASE.dll
+
+ [JavaScript]:
+   ticks  total  nonlib   name
+      4    0.3%   17.4%  LazyCompile: *resolve node:path:158:10
+      3    0.2%   13.0%  LazyCompile: *wrap D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\handlebars\dist\cjs\handlebars\compiler\code-gen.js:101:22
+      3    0.2%   13.0%  LazyCompile: *SourceNode_walk D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\source-map\lib\source-node.js:221:53
+      1    0.1%    4.3%  RegExp: ^(?:true(?=([~}\s)])))
+      1    0.1%    4.3%  RegExp: ^(?:[^\x00]+)
+      1    0.1%    4.3%  RegExp: ^(?:[^\x00]*?(?=(\{\{)))
+      1    0.1%    4.3%  RegExp: [\x00-\x1f\x27\x5c\x7f-\x9f]|[\ud800-\udbff](?![\udc00-\udfff])|(?<![\ud800-\udbff])[\udc00-\udfff]
+      1    0.1%    4.3%  RegExp: (?:\r\n?|\n).*
+      1    0.1%    4.3%  LazyCompile: *step D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express-handlebars\dist\express-handlebars.js:31:18
+      1    0.1%    4.3%  LazyCompile: *relative node:path:496:11
+      1    0.1%    4.3%  LazyCompile: *parse D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\handlebars\dist\cjs\handlebars\compiler\parser.js:269:30
+      1    0.1%    4.3%  LazyCompile: *onwrite node:internal/streams/writable:427:17
+      1    0.1%    4.3%  LazyCompile: *next D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express\lib\router\index.js:177:16
+      1    0.1%    4.3%  LazyCompile: *extend D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\handlebars\dist\cjs\handlebars\utils.js:28:16
+      1    0.1%    4.3%  LazyCompile: *Module._findPath node:internal/modules/cjs/loader:534:28
+      1    0.1%    4.3%  Function: ^newAsyncId node:internal/async_hooks:416:20
+
+ [C++]:
+   ticks  total  nonlib   name
+
+ [Summary]:
+   ticks  total  nonlib   name
+     23    1.6%  100.0%  JavaScript
+      0    0.0%    0.0%  C++
+     15    1.0%   65.2%  GC
+   1407   98.4%          Shared libraries
+
+ [C++ entry points]:
+   ticks    cpp   total   name
+
+ [Bottom up (heavy) profile]:
+  Note: percentage shows a share of a particular caller in the total
+  amount of its parent calls.
+  Callers occupying less than 1.0% are not shown.
+
+   ticks parent  name
+   1102   77.1%  C:\Windows\SYSTEM32\ntdll.dll
+     19    1.7%    C:\Program Files\nodejs\node.exe
+      5   26.3%      C:\Program Files\nodejs\node.exe
+      2   40.0%        Function: ^FastBuffer node:internal/buffer:958:14
+      2  100.0%          Function: ^createUnsafeBuffer node:internal/buffer:1059:28
+      1   50.0%            Function: ^createPool node:buffer:155:20
+      1   50.0%            Function: ^allocUnsafeSlow node:buffer:388:50
+      1   20.0%        LazyCompile: ~validate_config D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@mapbox\node-pre-gyp\lib\util\versioning.js:195:25
+      1  100.0%          LazyCompile: ~exports.find D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@mapbox\node-pre-gyp\lib\pre-binding.js:17:24
+      1  100.0%            Function: ~<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\bcrypt\bcrypt.js:1:1
+      1   20.0%        LazyCompile: ~escapeStringRegexp D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@colors\colors\lib\colors.js:78:34
+      1  100.0%          LazyCompile: ~<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@colors\colors\lib\colors.js:99:43
+      1  100.0%            C:\Program Files\nodejs\node.exe
+      1   20.0%        Function: ^getOwn node:internal/bootstrap/loaders:187:16
+      1  100.0%          Function: ^syncExports node:internal/bootstrap/loaders:304:14
+      1  100.0%            Function: ^<anonymous> node:internal/bootstrap/loaders:290:15
+      1    5.3%      LazyCompile: ~parseOptions D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\mongodb\lib\connection_string.js:195:22
+      1  100.0%        LazyCompile: ~MongoClient D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\mongodb\lib\mongo_client.js:44:16
+      1  100.0%          LazyCompile: ~<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\mongodb\lib\mongo_client.js:237:43
+      1  100.0%            LazyCompile: ~maybeCallback D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\mongodb\lib\utils.js:336:23
+      1    5.3%      LazyCompile: ~get D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\lv\address\index.js:1:368
+      1  100.0%        Function: ~<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\lv\address\index.js:1:1
+      1  100.0%          Function: ^Module._compile node:internal/modules/cjs/loader:1109:37
+      1  100.0%            Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      1    5.3%      LazyCompile: ~get D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\fr_CH\commerce\index.js:1:368
+      1  100.0%        Function: ~<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\fr_CH\commerce\index.js:1:1
+      1  100.0%          Function: ^Module._compile node:internal/modules/cjs/loader:1109:37
+      1  100.0%            Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      1    5.3%      LazyCompile: ~defaultTriggerAsyncIdScope node:internal/async_hooks:455:36
+      1  100.0%        LazyCompile: ~lookupAndConnect node:net:1107:26
+      1  100.0%          LazyCompile: ~Socket.connect node:net:1049:36
+      1  100.0%            LazyCompile: ~connect node:_tls_wrap:1606:35
+      1    5.3%      LazyCompile: ~d D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\de_CH\address\city_name.js:1:388
+      1  100.0%        Function: ~<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\de_CH\address\city_name.js:1:1
+      1  100.0%          Function: ^Module._compile node:internal/modules/cjs/loader:1109:37
+      1  100.0%            Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      1    5.3%      LazyCompile: ~c D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\modules\image\providers\lorempicsum.js:1:388
+      1  100.0%        Function: ~<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\modules\image\providers\lorempicsum.js:1:1
+      1  100.0%          Function: ^Module._compile node:internal/modules/cjs/loader:1109:37
+      1  100.0%            Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      1    5.3%      LazyCompile: ~c D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\nl_BE\internet\domain_suffix.js:1:388
+      1  100.0%        Function: ~<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\nl_BE\internet\domain_suffix.js:1:1
+      1  100.0%          Function: ^Module._compile node:internal/modules/cjs/loader:1109:37
+      1  100.0%            Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      1    5.3%      LazyCompile: ~c D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\fr\animal\snake.js:1:388
+      1  100.0%        Function: ~<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\fr\animal\snake.js:1:1
+      1  100.0%          Function: ^Module._compile node:internal/modules/cjs/loader:1109:37
+      1  100.0%            Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      1    5.3%      LazyCompile: ~b D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\el\phone_number\formats.js:1:388
+      1  100.0%        Function: ~<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\el\phone_number\formats.js:1:1
+      1  100.0%          Function: ^Module._compile node:internal/modules/cjs/loader:1109:37
+      1  100.0%            Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      1    5.3%      Function: ~<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\uk\address\street.js:1:1
+      1  100.0%        LazyCompile: *Module._compile node:internal/modules/cjs/loader:1109:37
+      1  100.0%          Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      1  100.0%            Function: ^Module.load node:internal/modules/cjs/loader:1021:33
+      1    5.3%      Function: ~<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\pt_BR\address\city_suffix.js:1:1
+      1  100.0%        Function: ^Module._compile node:internal/modules/cjs/loader:1109:37
+      1  100.0%          Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      1  100.0%            Function: ^Module.load node:internal/modules/cjs/loader:1021:33
+      1    5.3%      Function: ~<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\fa\internet\index.js:1:1
+      1  100.0%        Function: ^Module._compile node:internal/modules/cjs/loader:1109:37
+      1  100.0%          Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      1  100.0%            Function: ^Module.load node:internal/modules/cjs/loader:1021:33
+      1    5.3%      Function: ^randomBytes node:internal/crypto/random:93:21
+      1  100.0%        Function: ^randomBytesSync D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\random-bytes\index.js:72:25
+      1  100.0%          Function: ^uidSync D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\uid-safe\index.js:75:18
+      1  100.0%            Function: ^generateSessionId D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express-session\index.js:518:27
+      1    5.3%      Function: ^Module._findPath node:internal/modules/cjs/loader:534:28
+      1  100.0%        Function: ^Module._resolveFilename node:internal/modules/cjs/loader:894:35
+      1  100.0%          Function: ^Module._load node:internal/modules/cjs/loader:800:24
+      1  100.0%            Function: ^Module.require node:internal/modules/cjs/loader:1049:36
+
+    303   21.2%  C:\Program Files\nodejs\node.exe
+    184   60.7%    C:\Program Files\nodejs\node.exe
+     39   21.2%      Function: ^compileFunction node:vm:316:25
+     39  100.0%        Function: ^wrapSafe node:internal/modules/cjs/loader:1069:18
+     36   92.3%          Function: ^Module._compile node:internal/modules/cjs/loader:1109:37
+     35   97.2%            Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      1    2.8%            LazyCompile: ~Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      3    7.7%          LazyCompile: *Module._compile node:internal/modules/cjs/loader:1109:37
+      3  100.0%            Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+     20   10.9%      Function: ^handleWriteReq node:internal/stream_base_commons:45:24
+     20  100.0%        Function: ^writeGeneric node:internal/stream_base_commons:147:22
+     20  100.0%          Function: ^Socket._writeGeneric node:net:879:42
+     20  100.0%            Function: ^Socket._write node:net:916:35
+      8    4.3%      C:\Program Files\nodejs\node.exe
+      1   12.5%        LazyCompile: ~i D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\ro\address\street.js:1:215
+      1  100.0%          LazyCompile: ~l D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\ro\address\street.js:1:388
+      1  100.0%            Function: ~<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\ro\address\street.js:1:1
+      1   12.5%        LazyCompile: ~format D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\content-type\index.js:65:17
+      1  100.0%          LazyCompile: ~setCharset D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express\lib\utils.js:248:41
+      1  100.0%            LazyCompile: ~send D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express\lib\response.js:111:25
+      1   12.5%        LazyCompile: ~checkServer D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\mongoose\node_modules\mongodb\lib\sdam\monitor.js:143:21
+      1  100.0%          LazyCompile: ~<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\mongoose\node_modules\mongodb\lib\sdam\monitor.js:229:12
+      1  100.0%            LazyCompile: ~MonitorInterval._executeAndReschedule D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\mongoose\node_modules\mongodb\lib\sdam\monitor.js:340:38
+      1   12.5%        LazyCompile: *quotedString D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\handlebars\dist\cjs\handlebars\compiler\code-gen.js:118:38
+      1  100.0%          LazyCompile: *compile D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\handlebars\dist\cjs\handlebars\compiler\javascript-compiler.js:73:28
+      1  100.0%            LazyCompile: *<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express-handlebars\dist\express-handlebars.js:227:47
+      1   12.5%        Function: ^stat node:internal/modules/cjs/loader:157:14
+      1  100.0%          Function: ^tryFile node:internal/modules/cjs/loader:424:17
+      1  100.0%            Function: ^tryExtensions node:internal/modules/cjs/loader:440:23
+      1   12.5%        Function: ^expressInit D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express\lib\middleware\init.js:29:30
+      1  100.0%          Function: ^handle D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express\lib\router\layer.js:86:49
+      1  100.0%            Function: ^trim_prefix D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express\lib\router\index.js:293:23
+      1   12.5%        Function: ^SideEffectFreeRegExpPrototypeExec node:internal/util:568:43
+      1  100.0%          LazyCompile: *realpathSync node:fs:2455:22
+      1  100.0%            Function: ^toRealPath node:internal/modules/cjs/loader:433:20
+      1   12.5%        Function: ^<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\minimatch\minimatch.js:224:19
+      1  100.0%          C:\Program Files\nodejs\node.exe
+      1  100.0%            Function: ^make D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\minimatch\minimatch.js:190:8
+      5    2.7%      Function: ^stat node:internal/modules/cjs/loader:157:14
+      3   60.0%        Function: ^tryFile node:internal/modules/cjs/loader:424:17
+      3  100.0%          Function: ^tryExtensions node:internal/modules/cjs/loader:440:23
+      2   66.7%            Function: ^Module._findPath node:internal/modules/cjs/loader:534:28
+      1   33.3%            Function: ^tryPackage node:internal/modules/cjs/loader:378:20
+      2   40.0%        Function: ^Module._findPath node:internal/modules/cjs/loader:534:28
+      2  100.0%          Function: ^Module._resolveFilename node:internal/modules/cjs/loader:894:35
+      2  100.0%            Function: ^Module._load node:internal/modules/cjs/loader:800:24
+      4    2.2%      Function: ^statSync node:fs:1575:18
+      4  100.0%        Function: ^tryStat D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express\lib\view.js:174:17
+      4  100.0%          Function: ^resolve D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express\lib\view.js:146:42
+      4  100.0%            Function: ^lookup D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express\lib\view.js:104:40
+      4    2.2%      Function: ^compileForInternalLoader node:internal/bootstrap/loaders:316:27
+      3   75.0%        Function: ^nativeModuleRequire node:internal/bootstrap/loaders:349:29
+      1   33.3%          Function: ~<anonymous> node:internal/modules/esm/load:1:1
+      1  100.0%            Function: ^compileForInternalLoader node:internal/bootstrap/loaders:316:27
+      1   33.3%          Function: ~<anonymous> node:crypto:1:1
+      1  100.0%            Function: ^compileForInternalLoader node:internal/bootstrap/loaders:316:27
+      1   33.3%          Function: ~<anonymous> node:_http_client:1:1
+      1  100.0%            Function: ^compileForInternalLoader node:internal/bootstrap/loaders:316:27
+      1   25.0%        Function: ^compileForPublicLoader node:internal/bootstrap/loaders:263:25
+      1  100.0%          Function: ^loadNativeModule node:internal/modules/cjs/helpers:45:26
+      1  100.0%            Function: ^Module._load node:internal/modules/cjs/loader:800:24
+      3    1.6%      Function: ^setOwnProperty node:internal/util:548:24
+      2   66.7%        Function: ^makeRequireFunction node:internal/modules/cjs/helpers:59:29
+      2  100.0%          Function: ^Module._compile node:internal/modules/cjs/loader:1109:37
+      2  100.0%            Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      1   33.3%        Function: ^Module node:internal/modules/cjs/loader:190:16
+      1  100.0%          Function: ^Module._load node:internal/modules/cjs/loader:800:24
+      1  100.0%            Function: ^Module.require node:internal/modules/cjs/loader:1049:36
+      3    1.6%      Function: ^readSync node:fs:695:18
+      2   66.7%        Function: ^tryReadSync node:fs:434:21
+      2  100.0%          Function: ^readFileSync node:fs:455:22
+      2  100.0%            Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      1   33.3%        LazyCompile: *readFileSync node:fs:455:22
+      1  100.0%          Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      1  100.0%            Function: ^Module.load node:internal/modules/cjs/loader:1021:33
+      3    1.6%      Function: ^openSync node:fs:581:18
+      3  100.0%        Function: ^readFileSync node:fs:455:22
+      2   66.7%          Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      2  100.0%            Function: ^Module.load node:internal/modules/cjs/loader:1021:33
+      1   33.3%          LazyCompile: ~Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      1  100.0%            Function: ^Module.load node:internal/modules/cjs/loader:1021:33
+      2    1.1%      Function: ^read node:internal/modules/package_json_reader:16:14
+      2  100.0%        Function: ^readPackage node:internal/modules/cjs/loader:319:21
+      2  100.0%          Function: ^resolveExports node:internal/modules/cjs/loader:512:24
+      2  100.0%            Function: ^Module._findPath node:internal/modules/cjs/loader:534:28
+      2    1.1%      Function: ^read node:internal/fs/read_file_context:85:7
+      2  100.0%        Function: ^readFileAfterStat node:fs:331:27
+      2    1.1%      Function: ^parserOnMessageComplete node:_http_common:146:33
+      2    1.1%      Function: ^expressInit D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express\lib\middleware\init.js:29:30
+      1   50.0%        LazyCompile: *trim_prefix D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express\lib\router\index.js:293:23
+      1  100.0%          LazyCompile: *next D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express\lib\router\index.js:177:16
+      1  100.0%            Function: ^query D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express\lib\middleware\query.js:39:24
+      1   50.0%        Function: ^handle D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express\lib\router\layer.js:86:49
+      1  100.0%          Function: ^trim_prefix D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express\lib\router\index.js:293:23
+      1  100.0%            LazyCompile: *next D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express\lib\router\index.js:177:16
+      2    1.1%      Function: ^close node:internal/fs/read_file_context:112:8
+      2  100.0%        Function: ^readFileAfterRead node:internal/fs/read_file_context:25:27
+      2    1.1%      Function: ^Module._load node:internal/modules/cjs/loader:800:24
+      2  100.0%        Function: ^Module.require node:internal/modules/cjs/loader:1049:36
+      2  100.0%          Function: ^require node:internal/modules/cjs/helpers:102:31
+      1   50.0%            Function: ~<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@mapbox\node-pre-gyp\lib\util\s3_setup.js:1:1
+      1   50.0%            Function: ~<anonymous> D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\@faker-js\faker\dist\cjs\locales\es\address\index.js:1:1
+      2    1.1%      Function: ^Hash node:internal/crypto/hash:62:14
+      2  100.0%        Function: ^createHash node:crypto:129:20
+      2  100.0%          Function: ^hash D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express-session\index.js:596:14
+      2  100.0%            Function: ^isModified D:\programacion\programacion coderhouse\4-Programacion Backend\BLOQUE 2\Desafios-backend-bloque2\Clase-33\desafioEntregable\node_modules\express-session\index.js:425:24
+     22    7.3%    LazyCompile: *compileFunction node:vm:316:25
+     22  100.0%      Function: ^wrapSafe node:internal/modules/cjs/loader:1069:18
+     21   95.5%        LazyCompile: *Module._compile node:internal/modules/cjs/loader:1109:37
+     21  100.0%          Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+     15   71.4%            LazyCompile: *Module.load node:internal/modules/cjs/loader:1021:33
+      3   14.3%            LazyCompile: *Module._load node:internal/modules/cjs/loader:800:24
+      3   14.3%            Function: ^Module.load node:internal/modules/cjs/loader:1021:33
+      1    4.5%        Function: ^Module._compile node:internal/modules/cjs/loader:1109:37
+      1  100.0%          Function: ^Module._extensions..js node:internal/modules/cjs/loader:1164:37
+      1  100.0%            Function: ^Module.load node:internal/modules/cjs/loader:1021:33
+
