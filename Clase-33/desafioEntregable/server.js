@@ -17,6 +17,7 @@ const Usuarios = require('./models/modeloMongoUsuarios');
 const dotenv = require('dotenv').config();
 // const { fork } = require('child_process');
 const compression = require('compression');
+const { logger } = require('./utils/logger');
 
 //* Instancias
 const app = express();
@@ -220,10 +221,12 @@ app.use(passport.session());
 
 app.get('/', checkAuthentication, (req, res) => {
 	const user = req.user;
+	logger.log('info', 'Ruta: / - Metodo: GET');
 	res.render('main', { layout: 'index', username: user.username });
 });
 
 app.get('/api/productos-test', checkAuthentication, (req, res) => {
+	logger.log('info', 'Ruta: / - Metodo: GET');
 	res.render('main', { layout: 'faker' });
 });
 
@@ -238,7 +241,12 @@ app.get('/info', compression(), (req, res) => {
 		rss: process.memoryUsage().rss,
 		procesadores: numCPUs,
 	};
+	logger.log('info', 'Ruta: / - Metodo: GET');
 	res.render('main', { layout: 'info', dataProcess: dataProcess });
+});
+
+app.get('*', (req, res) => {
+	logger.log('warn', 'Ruta: inexistente - Metodo: GET');
 });
 
 // app.get('/api/randoms', (req, res) => {

@@ -85,21 +85,12 @@ const renderizadoMensajes = async (mensajes) => {
 };
 
 socket.on('lista mensajes', (mensajes) => {
-	console.log(
-		'recibe mensajes back normalizados',
-		JSON.stringify(mensajes).length
-	);
 	let nuevaListaMensajes = [];
 	const mensajesDesnormalizados = mensajeDenormalizr(mensajes.mensajes);
-	console.log(
-		'mensajes desnormalizados',
-		JSON.stringify(mensajeDenormalizr(mensajes.mensajes)).length
-	);
 
 	mensajesDesnormalizados.map((data) => {
 		nuevaListaMensajes.push(data._doc);
 	});
-	console.log('nuevo array', nuevaListaMensajes);
 
 	renderizadoMensajes(nuevaListaMensajes);
 });
