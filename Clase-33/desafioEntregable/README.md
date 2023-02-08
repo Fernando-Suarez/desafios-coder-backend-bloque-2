@@ -26,9 +26,10 @@ Para ambas condiciones (con o sin console.log) en la ruta '/info' OBTENER:
 
 soluciones:
 
-1- sin gzip  
-(https://raw.githubusercontent.com/Fernando-Suarez/desafios-coder-backend-bloque-2/tree/main/Clase-33/desafioEntregable/assets/sin_gzip.png)
+1- sin gzip
+
+![get ruta /info sin compression gzip](https://raw.githubusercontent.com/Fernando-Suarez/desafios-coder-backend-bloque-2/tree/main/Clase-33/desafioEntregable/assets/sin_gzip.png)
 
 2- con gzip
 
-(https://raw.githubusercontent.com/Fernando-Suarez/desafios-coder-backend-bloque-2/tree/main/Clase-33/desafioEntregable/assets/con_gzip.png)
+![get ruta /info con compression gzip](https://raw.githubusercontent.com/Fernando-Suarez/desafios-coder-backend-bloque-2/tree/main/Clase-33/desafioEntregable/assets/con_gzip.png)
