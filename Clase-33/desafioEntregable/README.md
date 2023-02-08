@@ -1,6 +1,6 @@
 LOGGERS, GZIP y ANÁLISIS DE PERFORMANCE
 
-Consigna:
+1 - Consigna:
 Incorporar al proyecto de servidor de trabajo la compresión gzip.
 Verificar sobre la ruta /info con y sin compresión, la diferencia de cantidad de bytes devueltos en un caso y otro.
 
@@ -20,7 +20,7 @@ Registrar sólo los logs de warning a un archivo llamada warn.log
 
 Enviar sólo los logs de error a un archivo llamada error.log
 
-Consigna: Luego, realizar el análisis completo de performance del servidor con el que venimos trabajando.
+2 - Consigna: Luego, realizar el análisis completo de performance del servidor con el que venimos trabajando.
 Vamos a trabajar sobre la ruta '/info', en modo fork, agregando ó extrayendo un console.log de la información colectada antes de devolverla al cliente. Además desactivaremos el child_process de la ruta '/randoms'
 Para ambas condiciones (con o sin console.log) en la ruta '/info' OBTENER:
 
@@ -33,11 +33,32 @@ Para ambas condiciones (con o sin console.log) en la ruta '/info' OBTENER:
    👉 Al final incluir la conclusión obtenida a partir del análisis de los datos.
 
 soluciones :
+consigna 1:
 
 compresion con gzip
 
-![](https://github.com/Fernando-Suarez/desafios-coder-backend-bloque-2/blob/main/Clase-33/desafioEntregable/assets/con_gzip.png)
+<!-- ![](https://github.com/Fernando-Suarez/desafios-coder-backend-bloque-2/blob/main/Clase-33/desafioEntregable/assets/con_gzip.png) -->
 
 compresion sin gzip
 
 ![](https://github.com/Fernando-Suarez/desafios-coder-backend-bloque-2/blob/main/Clase-33/desafioEntregable/assets/sin_gzip.png)
+
+consigna 2:
+
+1.  --prof con console.log
+
+![](https://github.com/Fernando-Suarez/desafios-coder-backend-bloque-2/blob/main/Clase-33/desafioEntregable/assets/con_console.png)
+
+     --prof sin console.log
+
+![](https://github.com/Fernando-Suarez/desafios-coder-backend-bloque-2/blob/main/Clase-33/desafioEntregable/assets/sin_console.png)
+
+     resultado con --prof-process con console.log
+
+![](https://github.com/Fernando-Suarez/desafios-coder-backend-bloque-2/blob/main/Clase-33/desafioEntregable/assets/result-prof-process-con-console.png)
+
+     resultado con --prof-process sin console.log
+
+![](https://github.com/Fernando-Suarez/desafios-coder-backend-bloque-2/blob/main/Clase-33/desafioEntregable/assets/result-prof-process-sin-console.png)
+
+2.
