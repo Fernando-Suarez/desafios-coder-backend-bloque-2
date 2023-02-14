@@ -1,0 +1,89 @@
+<html lang='en'>
+	<head>
+		<meta charset='UTF-8' />
+		<meta http-equiv='X-UA-Compatible' content='IE=edge' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+		<link rel='stylesheet' type='text/css' href='../../assets/style.css' />
+		<script
+			src='https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js'
+		></script>
+		<script
+			src='https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js'
+		></script>
+		<script src='/socket.io/socket.io.js'></script>
+		<title>Node Js</title>
+	</head>
+	<body>
+		{{#if username.length}}
+			<div>
+				<h2>Bienvenido {{username}} </h2>
+				{{! <form action='/logout' method='get'>
+					<input type='submit' name='username' placeholder='Logout' /></form>
+					<button type="submit"></button> }}
+				<button onclick="location.href='/logout'">
+					Desloguear
+				</button>
+			</div>
+		{{/if}}
+		<div>
+			<h1>Ingrese un Producto</h1>
+			<form onsubmit='return cargarProducto(this)' id='product-form'>
+				<div>
+					<p>Nombre</p>
+					<input type='text' name='nombre' required='' />
+				</div>
+				<div>
+					<p>Precio</p>
+					<input type='text' name='precio' required='' />
+				</div>
+				<div>
+					<p>Categoria</p>
+					<input type='text' name='categoria' required='' />
+				</div>
+				<div>
+					<p>Foto URL</p>
+					<input type='text' name='thumbnail' required='' />
+				</div>
+				<div>
+					<br />
+					<input type='submit' class='submit-button' />
+				</div>
+			</form>
+		</div>
+
+		<div id='products-container'></div>
+
+		<br />
+		<div>
+			<div class='chat-form-container'>
+				<form onsubmit='return guardarMensaje(this)' id='chat-form'>
+					<div>
+						<h2>Centro de Mensajes</h2>
+						<input type='email' name='email' placeholder='Email' required />
+						<input type='text' name='nombre' placeholder='Nombre' required />
+						<input
+							type='text'
+							name='apellido'
+							placeholder='Apellido'
+							required
+						/>
+						<input type='number' name='edad' placeholder='Edad' required />
+						<input type='text' name='alias' placeholder='Alias' required />
+						<input type='text' name='avatar' placeholder='Avatar' required />
+					</div>
+					<div id='chat-container' class='chat-container'></div>
+					<div>
+						<input type='text' name='text' placeholder='Ingrese un mensaje' />
+					</div>
+
+					<div>
+						<br />
+						<input type='submit' class='submit-button' />
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<script src='../../assets/cliente.js'></script>
+	</body>
+</html>
