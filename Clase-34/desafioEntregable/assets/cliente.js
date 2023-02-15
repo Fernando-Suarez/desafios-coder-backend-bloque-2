@@ -45,34 +45,11 @@ socket.on('lista random', (products) => {
 	renderizadoRandom(products);
 });
 
-//*denormalizr
-const mensajeDenormalizr = (objetoNormalizado) => {
-	const authorSchema = new normalizr.schema.Entity(
-		'author',
-		{},
-		{ idAttribute: 'email' }
-	);
-
-	const mensajeSchema = new normalizr.schema.Entity(
-		'mensajes',
-		{
-			author: authorSchema,
-		},
-		{ idAttribute: '_id' }
-	);
-	const mensajeDesnormalizado = normalizr.denormalize(
-		objetoNormalizado.result,
-		[mensajeSchema],
-		objetoNormalizado.entities
-	);
-	return mensajeDesnormalizado;
-};
 //* funciones socket chat
 
 const guardarMensaje = (e) => {
 	const formData = new FormData(chatForm);
 	const formValues = Object.fromEntries(formData);
-	console.log(formValues);
 	socket.emit('nuevo mensaje', formValues);
 	return false;
 };
@@ -85,13 +62,7 @@ const renderizadoMensajes = async (mensajes) => {
 	chatContainer.innerHTML = html;
 };
 
+//socket mensajes
 socket.on('lista mensajes', (mensajes) => {
-	let nuevaListaMensajes = [];
-	const mensajesDesnormalizados = mensajeDenormalizr(mensajes.mensajes);
-
-	mensajesDesnormalizados.map((data) => {
-		nuevaListaMensajes.push(data._doc);
-	});
-
-	renderizadoMensajes(nuevaListaMensajes);
+	renderizadoMensajes(mensajes);
 });

@@ -5,7 +5,7 @@ const { engine } = require('express-handlebars');
 const { Server: HTTPServer } = require('http');
 const { Server: IOServer } = require('socket.io');
 const { dataFaker } = require('./utils/faker');
-const { mensajeNormalizr } = require('./utils/normalizr');
+
 const session = require('express-session');
 const bCrypt = require('bcrypt');
 const MongoStore = require('connect-mongo');
@@ -15,7 +15,7 @@ const LocalStrategy = require('passport-local');
 const Usuarios = require('./DB/models/modeloMongoUsuarios');
 const compression = require('compression');
 const { logger } = require('./utils/logger');
-// const mongoose = require('mongoose');
+
 if (process.env.NODE_ENV != 'production') {
 	require('dotenv').config();
 }
@@ -59,19 +59,6 @@ app.engine(
 		layoutsDir: './views/layouts',
 	})
 );
-//----------------------------------------------------------------------------------------------------------------------------------------------
-
-//*------------------------------------
-
-//*persistencia Mongo
-// mongoose;
-// .connect(`${DB_MONGO_URL}`)
-// .then(() => console.log('Connect to mongo'))
-// .catch((error) => {
-// 	console.log(error);
-// 	throw 'connection failded';
-// });
-
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 //* funcion passport password validacion
@@ -225,7 +212,6 @@ app.get('/info', (req, res) => {
 		procesadores: numCPUs,
 	};
 	logger.log('info', 'Ruta: /info - Metodo: GET');
-	console.log(dataProcess);
 	res.render('main', { layout: 'info', dataProcess: dataProcess });
 });
 
@@ -262,6 +248,7 @@ HTTPserver.listen(PORT, () => {
 const enviarProductosSocket = async (socket) => {
 	try {
 		const productos = await contenedorProductos.getAll();
+
 		socket.emit('lista productos', productos);
 	} catch (error) {
 		logger.log('error', 'error al enviar productos db');
@@ -291,12 +278,7 @@ const guardarProducto = async (nuevoProducto) => {
 const enviarMensajesSocket = async (socket) => {
 	try {
 		const mensajes = await contenedorMensajes.getAll();
-		//modificar con normalizer
-		const mensajeNormalizado = mensajeNormalizr(mensajes);
-		socket.emit('lista mensajes', {
-			id: 'mensajes',
-			mensajes: mensajeNormalizado,
-		});
+		socket.emit('lista mensajes', mensajes);
 	} catch (error) {
 		logger.log('error', 'no se pudieron enviar los mensajes');
 	}
@@ -306,11 +288,12 @@ const guardarMensaje = async (nuevoMensaje) => {
 	try {
 		nuevoMensaje.fecha = new Date().toLocaleString();
 		await contenedorMensajes.save({
-			r: nuevoMensaje,
+			author: nuevoMensaje,
 			text: nuevoMensaje.text,
 			fecha: nuevoMensaje.fecha,
 		});
 		const mensajes = await contenedorMensajes.getAll();
+
 		io.sockets.emit('lista mensajes', mensajes);
 	} catch (error) {
 		logger.log('error', 'no se pudo guardar el mensaje');
